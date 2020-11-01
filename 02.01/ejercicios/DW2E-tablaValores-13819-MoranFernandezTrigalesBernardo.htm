@@ -1,63 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tablaValores</title>
+    <style>
+        #customers {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        #customers td, #customers th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+        
+        #customers tr:hover {background-color: #ddd;}
+        
+        #customers th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+        </style>
+    
+</head>
 
+<body>
     <script>
         var arrayCos = new Array();
-        
-        function iniciar()
-        {
-            rellenaArray(arrayCos);
+        //Tengo q poner los titulos
 
+        function iniciar() {
+
+            //Títulos de la pagina
+            tituloUno();
+            rellenaArray(arrayCos);
             imprimeArray(arrayCos);
-            console.log(arrayCos);
+
+            //tabla
+            crearTabla(arrayCos)
+
+            //
+            crearCanvas(arrayCos);
         }
 
-        function imprimeArray(arrayCos)
+        function crearCanvas(arraCos)
         {
             var ele = document.createElement('div');
             document.body.appendChild(ele);
-            ele.id = 'div1';
-            for(var i = 0; i < arrayCos.length; i++);
+            var p = document.createElement('p');
+            p.style.margin = '0.1em'
+            p.innerHTML = '3) en canvas :'
+            ele.appendChild(p);
+            var amp = 120;
+            var canvas = document.createElement('canvas');
+            canvas.setAttribute('width', '400');
+            canvas.setAttribute('height', '300');
+            canvas.style.backgroundColor = 'grey';
+            ele.appendChild(canvas);
+
+            var lienzo = canvas.getContext('2d');
+
+            lienzo.beginPath();
+            lienzo.moveTo(0 , canvas.height/2);
+            for(var i = 0; i < arrayCos.length; i++)
             {
-                var tmp = arrayCos[i];
-                var p = document.createElement('p');
-                p.innerHTML = tmp.x + '#' + x.cos + '#' + x.sen + '#' + x.sen14dec + '#' + x.todosDec;
-                document.getElementById(ele.id).appendChild(p);
+                lienzo.lineTo(arrayCos[i].x * (380/12), arrayCos[i].cos * amp + canvas.height/2);
             }
-           
+            lienzo.stroke();
         }
-        function rellenaArray(arrayCos)
+
+        function crearTabla()
         {
+            var cabeceras = ['x', 'cos(x)', 'seno(x)', 'seno(x)', '14 decimales', 'x con decimales'];
+            var ele = document.createElement('div');
+            ele.id = 'div-tabla';
+            ele.style.margin = '2rem 0';
+            var title = document.createElement('p');
+            title.innerHTML = '2) tabla de valores en salida :';
+            title.style.margin = '0.1em';
+            ele.appendChild(title);
+            var tab =document.createElement('table');
+            tab.id = 'customers';
+            var head = document.createElement('tr');
+            for(var i = 0; i < cabeceras.length; i++)
+            {
+                var th = document.createElement('th');
+                th.innerHTML= cabeceras[i];
+                head.appendChild(th);
+            }
+            tab.appendChild(head);
+            for(var i = 0; i < arrayCos.length; i++)
+            {
+                var tr = document.createElement('tr');
+                var tmp = arrayCos[i];
+                tr.innerHTML = '<td>'+arrayCos[i].x +'</td>' + 
+                                '<td>'+arrayCos[i].cos +'</td>' + 
+                                '<td>'+arrayCos[i].sen +'</td>'+ 
+                                '<td>'+arrayCos[i].sen14dec +'</td>' + 
+                                '<td>'+arrayCos[i].todosDec +'</td>' + 
+                                '<td>'+arrayCos[i].valorCompleto +'</td>';
+                tab.appendChild(tr);
+            }
+            ele.appendChild(tab);
+            document.body.appendChild(ele);
+        }
+
+        function rellenaArray(arrayCos) {
             var j = 0.0;
             var i = 0;
-            while(j <= 12.0)
-            {
+            while (j <= 12.0) {
                 arrayCos[i] = crearObjetos(j);
                 i++;
                 j = j + 0.6;
             }
         }
 
-        function crearObjetos(v)
-        {
+        function imprimeArray(arrayCos) {
+            var ele = document.createElement('div');
+            document.body.appendChild(ele);
+            ele.id = 'div1';
+            var title = document.createElement('p');
+            title.innerHTML = '1) texto csv :';
+            title.style.margin = '0.1em';
+            ele.appendChild(title);
+            var title2 = document.createElement('p');
+            title2.innerHTML = 'x#cos(x)#seno(x)#seno(x)#14 decimales#x con decimales';
+            title2.style.margin = '0.1em';
+            ele.appendChild(title2);
+            var  i = 0;
+            while (i < arrayCos.length)
+            {
+                var tmp = arrayCos[i];
+                var p = document.createElement('p');
+                //console.log(tmp);
+                p.innerHTML = tmp.x + '#' + tmp.cos + '#' + tmp.sen + '#' + tmp.sen14dec + '#' + tmp.todosDec + '#' + tmp.valorCompleto;
+                p.style.margin = '0.1em';
+                document.getElementById(ele.id).appendChild(p);
+                i++;
+            }
+        }
+
+        function crearObjetos(v) {
             var tmp = new Object();
-            var catorce = Math.pow(10,14);
+            var catorce = Math.pow(10, 14);
             tmp.x = Math.round(v * 100) / 100;
             tmp.cos = Math.round(Math.cos(v) * 100) / 100;
-            tmp.sen =  Math.round(Math.sin(v) * 100) / 100;
-            tmp.sen14dec =  Math.sin(v).toPrecision(14);
+            tmp.sen = Math.round(Math.sin(v) * 100) / 100;
+            tmp.sen14dec = Math.sin(v).toPrecision(14);
             tmp.todosDec = tmp.x.toPrecision(14);
+            tmp.valorCompleto = v;
             return tmp;
         }
-        window.onload = iniciar();
 
+        function tituloUno()
+        {
+            var ele = document.createElement('div');
+            document.body.appendChild(ele);
+
+            var h = document.createElement('p');
+            h.innerHTML = '<b>EJEMPLO</b> de tabla de valores';
+            ele.appendChild(h);
+        }
+        window.onload = iniciar();
     </script>
-</head>
-<body>
-    
 </body>
+
 </html>
