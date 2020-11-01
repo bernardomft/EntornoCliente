@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Cálculo</title>
+ 
+
+</head>
+ 
+<body>
+    <p id="datos"></p>
+<script type="text/javascript">
+	
+    var alto = prompt("Introduce el alto: ");
+    var ancho = prompt("Introduce el ancho: ");
+    var fondo = prompt("Introduce el fondo: ");
+    console.log("Alto: " + alto);
+    console.log("Ancho: " + ancho );
+    console.log("Fondo: " + fondo);
+
+    var superficie = fondo * ancho;
+    var volumen = alto * ancho * fondo;
+    console.log("Superficie: " + superficie);
+    console.log("volumen: " + volumen);
+    
+    var sup_pies = parseFloat(Math.round((superficie * (3.2808)^2) * 100) /     100).toFixed(2);
+    var vol_pies = parseFloat(Math.round((volumen * (3.2808)^3) * 100) / 100).toFixed(2);
+    console.log("Superficie en pies: " + sup_pies);
+    console.log("volumen en pies: " + vol_pies);
+    
+    /*document.write("<p>Alto = " + alto + "</p>");
+    document.write("<p>Ancho = " + ancho + "</p>");
+    document.write("<p>Fondo = " + fondo + "</p>");
+    document.write("<p>Superficie = " + superficie + " ( "+ sup_pies + " pies)</p>");
+    document.write("<p>Volumen = " + volumen + " ( "+ vol_pies + " pies)</p>");
+    */
+
+    ///Otra forma
+    var texto = "Alto = " + alto + "</br>Ancho = " + ancho + "</br>Fondo = " + fondo + "</br>Superficie = " + superficie + " ( " + sup_pies + " pies)</br>Volumen = " + volumen +
+                " ( " + vol_pies + " pies)";
+    document.getElementById("datos").innerHTML=texto;
+
+	
+
+</script>	
+</body>
+</html>

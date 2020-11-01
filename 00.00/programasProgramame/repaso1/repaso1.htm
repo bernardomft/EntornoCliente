@@ -1,0 +1,167 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>R01</title>
+</head>
+
+<body>
+
+    <h3>Archivo de entrada:</h3>
+    <input type="file" id="file-input" /><!-- carga del archivo entrada0.txt -->
+    <h3>Entrada:</h3>
+    <pre id="entrada"></pre>
+    <h3>Salida:</h3>
+    <pre id="salida"></pre>
+
+    <script>
+        /* fuente: https://es.stackoverflow.com/questions/54734/c%C3%B3mo-leer-un-archivo-txt-desde-javascript */
+
+        var entradaTexto = new Array(); /* array para almecenar las lineas de entrada archivo */
+
+        function leerArchivo(e) {
+            // esta funcion lee un archivo de texto local y lo deja en la variable contenido
+            var archivo = e.target.files[0];
+            if (!archivo) {
+                return;
+            }
+            var lector = new FileReader(); // objeto para leer el fichero
+            lector.onload = function (e) { // callback con el evento de carga del archivo
+                var contenido = e.target.result;
+                mostrarContenido(contenido);
+                leerResultado(lector.result);
+            };
+            lector.readAsText(archivo);
+        }
+
+        function mostrarContenido(contenido) {
+            // usar el dom para mostrar el contenido
+            var elemento = document.getElementById('entrada');
+            elemento.innerHTML = contenido;
+        }
+
+        function valorDuplicado(a, c) {
+            var count = 0;
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] == c)
+                    count++;
+            }
+            return (count);
+        }
+
+        function media(a)
+        {
+            var media = 0;
+            for(var i = 0; i < a.length; i++)
+                media = media + a[i];
+            media = media / a.length;
+            if(a[1] > media)
+                return('SI');
+            else
+                return('NO');
+        }
+
+        function leerResultado(a) {
+            // leer la entrada y procesar
+            var cantidades = [0.0, 0.0, 0.0, 0.0, 0.0];
+            var respuesta = new Array();
+            entradaTexto = a.split('\r\n');
+            for (i = 0; i < entradaTexto.length; i++) {
+                var linea = entradaTexto[i].split(',');
+                var data = linea[0].split(' ');
+                data[1] = parseFloat(data[1]);
+                if (data[0] != 'N' && data[0] != 'E') {
+                    switch (data[0]) {
+                        case 'D':
+                            cantidades[0] = cantidades[0] + data[1];
+                            break;
+                        case 'A':
+                            cantidades[1] = cantidades[1] + data[1];
+                            break;
+                        case 'M':
+                            cantidades[2] = cantidades[2] + data[1];
+                            break;
+                        case 'I':
+                            cantidades[3] = cantidades[3] + data[1];
+                            break;
+                        case 'C':
+                            cantidades[4] = cantidades[4] + data[1];
+                            break;
+                    }
+                } 
+                else  {
+                    var max, min;
+                    var m = Math.max.apply(null, cantidades);
+                    var n = Math.min.apply(null, cantidades);
+                    console.log(cantidades);
+                    console.log('MAX: ' + m + '  MIN: ' + n);
+                    if (valorDuplicado(cantidades, m) == 1) {
+                        switch (cantidades.indexOf(m)) {
+                            case 0:
+                                max = 'DESAYUNOS';
+                                break;
+                            case 1:
+                                max = 'COMIDAS';
+                                break;
+                            case 2:
+                                max = 'MERIENDAS';
+                                break;
+                            case 3:
+                                max = 'CENAS';
+                                break;
+                            case 4:
+                                max = 'COPAS';
+                                break;
+                        }
+                    } 
+                    else
+                        max = 'EMPATE';
+
+                    if (valorDuplicado(cantidades, n) == 1) {
+                        switch (cantidades.indexOf(n)) {
+                            case 0:
+                                min = 'DESAYUNOS';
+                                break;
+                            case 1:
+                                min = 'COMIDAS';
+                                break;
+                            case 2:
+                                min = 'MERIENDAS';
+                                break;
+                            case 3:
+                                min = 'CENAS';
+                                break;
+                            case 4:
+                                min = 'COPAS';
+                                break;
+                        }
+                    } else
+                        min = 'EMPATE';
+
+                    respuesta.push(max + '#' + min + '#' + media(cantidades));
+                    m = 0.0; 
+                    n = 0.0;
+                    for(var j = 0; j < cantidades.length; j++)
+                        cantidades[i] = 0.0;
+                    console.log(cantidades);
+
+                }
+            }
+
+            // imprimir la salida
+            resul = "sin procesar";
+            var elemento = document.getElementById('salida');
+            respuesta = respuesta.join('<br>');
+            elemento.innerHTML = respuesta;
+        }
+
+        document.getElementById('file-input').addEventListener('change', leerArchivo,
+            false); // añadir evento para llamar a la funcion leerArchivo
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>menu1B</title>
+
+    <style>
+        div p:hover {
+            background-color: grey;
+        }
+
+        ;
+    </style>
+    <script>
+        const text =
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quam turpis, consectetur eget consequat vitae, viverra in justo. Praesent lacinia fermentum massa et scelerisque. Praesent ullamcorper, enim vitae cursus porta, nibh lacus consectetur nunc, vel egestas eros ex id mauris. Praesent dapibus id odio non sodales. Mauris egestas tempus leo nec dignissim. Nulla in sagittis neque. Maecenas mollis sapien ut eleifend feugiat. Quisque ut odio odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed in euismod lorem. Etiam in enim eget est mattis mattis. In hac habitasse platea dictumst. Etiam tincidunt gravida metus non.";
+
+        function iniciar() {
+            //se crean los tres nodos
+            var arrayCajasDiv = new Array();
+            for (var i = 0; i < 20; i++) {
+                var str = 'menu ' + (i + 1);
+                arrayCajasDiv[i] = creaNodo('div', str);
+            }
+            nodoSimple();
+        }
+
+        function nodoSimple() {
+            var ele = document.createElement('p');
+            ele.id = 'p1';
+            document.body.appendChild(ele);
+        }
+
+        function creaNodo(tipo, str) {
+            //se crea div
+            var ele = document.createElement(tipo); // crear nodo
+            ele.id = str;
+            //se crea p
+            var p = document.createElement('p');
+            //estilos de p
+            p.innerHTML = str;
+            p.style.textAlign = 'center';
+            p.style.border = '1px solid #000';
+            p.style.padding = '5px';
+            //estilos de ele
+            ele.style.width = '100px';
+            ele.style.height = '40px';
+            ele.style.float = 'left';
+            ele.style.margin = '10px';
+            ele.style.cursor = 'pointer';
+            //posicionar elementos en el dom
+            document.body.appendChild(ele);
+            document.getElementById(str).appendChild(p);
+            ele.addEventListener('click', clickMenu);
+            return ele;
+        }
+
+        function clickMenu() {
+            var str = this.id;
+            var ele = document.getElementById('p1');
+            ele.innerHTML = '<br></br>' + 'Número: ' + str.charAt(str.length - 1) + '<br></br>' + text.substr(aleatorio(
+                1, 20), 240) + '<br></br>';
+            ele.style.clear = 'left';
+        }
+
+        function aleatorio(a, b) {
+            return Math.round(Math.random() * (b - a) + parseInt(a));
+        }
+
+
+        window.onload = iniciar; // sin parentesis , al final del head
+    </script>
+
+</head>
+
+<body>
+</body>
+
+</html>

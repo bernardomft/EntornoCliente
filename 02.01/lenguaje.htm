@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>lenguaje</title>
+<script type="text/javascript">
+
+// declaracion en head de javascript
+	
+// declaracion de funciones
+
+function refVal(lista2){
+	lista2[0]=2;
+}
+
+function iniciar(){
+
+	// comrobar si los arrays pasan por referencia
+	var ele=document.createElement('p'); // crear nodo
+	document.body.appendChild(ele);	// añadir nodo al dom	
+	var lista1=[1]; // array de un elemento [0]=1
+	refVal(lista1);
+	ele.innerHTML='B) el array pasa por referencia se modifica en la funcion : '+lista1;
+
+	// imprimir un array directamente
+	var ele=document.createElement('p'); // crear nodo
+	document.body.appendChild(ele);	// añadir el nodo al dom	
+	var a=['a','b']; // array de dos elementos
+	ele.innerHTML='C) imprimir un array con innerHTML : '+a; // pasar para imprimir el array a innerHTML
+
+	// que hacemos con la precision de los numeros ?
+	var ele2=document.createElement('p'); // crear nodo
+	document.body.appendChild(ele2);	  // añadir nodo al dom	
+	var x=0.2;
+	var y=0.1;
+	var z=x+y;
+	var w=(x+y).toFixed(4);
+	// al multiplicar por 10 quitamos el error de precision
+	var t2=x+' + '+y+' = '+z;
+	var t3=(x*10+y*10)/10;
+	ele2.innerHTML='D)Ejemplo de precision de un numero<br/>suma de dos float : '+t2+'<br/>1) usando toFixed a 4 decimales = '+w+'<br/>2) multiplicando y dividiendo (*10/10) = '+t3+'<br/><br/>E) haz click para ver el orden de los eventos: body,document,window';
+
+	/*
+	En una jerarquia de objetos con el mismo evento vemos a quien se atiende antes
+	src: https://www.w3schools.com/js/js_window.asp
+	*/
+
+	document.body.onclick = function(){alert('click al body')}; // objeto.evento=manejador
+	document.onclick = function(){alert('click a document')};
+	window.onclick = function(){alert('click window')};
+
+}
+
+// objeto.evento=manejador como declaracion semantica
+// evento de inicio despues de cargar la pagina
+window.onload=iniciar;
+
+</script>
+
+</head>
+ 
+<body>
+
+<script type="text/javascript">
+
+// document.write BORRA el contenido previo del body
+// despues de document.write usamos el dom
+
+// los array son object
+// los array pueden mezclar indices y nombres
+
+document.write('ejempos de Javascript<br/><br/>A)</br>declaracion de array<br/>');
+var arr = [3,5,7]; // es un objeto
+document.write('declaracion del array : var arr = [3,5,7];');
+var f=arr instanceof Array; // preguntar por el tipo de una variable
+document.write('<br/>es un array? '+f+'<br/>');
+// añadimos elementos al array indice=valor
+arr.foo = "hello"; // como objeto
+arr['pp2']='3404'; // indice texto como array
+arr[4]=4; // numerico como array
+
+document.write('elementos : arr[foo]='+arr['foo']+'; ');
+document.write('arr[3]='+arr[3]+'; ');
+document.write('arr[4]='+arr[4]+'</br>');
+// son 5 elementos con indices mixtos
+console.log(arr);
+/*
+let
+for..in
+*/
+document.write('leemos los indices del array con for in : ');
+for (let i in arr) {
+   document.write(i,' '); // elmento [3] no tiene indice
+}
+/*
+for..of
+*/
+document.write('<br/>print del array con document.write : ',arr);
+document.write('<br/>leemos los valores con for of del array : ');
+for (let i of arr) {
+   document.write(i,' '); 
+}
+document.write('<br/>lectura de indices y sus valores : ');
+for (let i in arr) {
+   document.write(i,'=',arr[i],';'); // [3] no tiene indice, tiene texto
+}
+
+// uso de throw abrir consola para ver la excepcion
+throw ":))) soy una excepcion";
+
+</script>	
+
+</body>
+</html>

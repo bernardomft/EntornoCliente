@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>El bar de Javier
+    </title>
+</head>
+ 
+<body>
+
+<h3>Archivo de entrada:</h3>
+<input type="file" id="file-input" /><!-- carga del archivo entrada0.txt -->
+<h3>Entrada:</h3>
+<pre id="entrada"></pre>
+<h3>Salida:</h3>
+<pre id="salida"></pre>
+
+<script>
+/* fuente: https://es.stackoverflow.com/questions/54734/c%C3%B3mo-leer-un-archivo-txt-desde-javascript */
+
+var entradaTexto = new Array(); /* array para almecenar las lineas de entrada archivo */
+
+function leerArchivo(e) {
+	// esta funcion lee un archivo de texto local y lo deja en la variable contenido
+	var archivo = e.target.files[0];
+	if (!archivo) {	return;	}
+	var lector = new FileReader(); 		// objeto para leer el fichero
+	lector.onload = function(e) { 		// callback con el evento de carga del archivo
+	var contenido = e.target.result;
+	mostrarContenido(contenido);
+	leerResultado(lector.result);	
+	};
+	lector.readAsText(archivo);
+}
+
+function mostrarContenido(contenido) {
+	// usar el dom para mostrar el contenido
+	var elemento = document.getElementById('entrada');
+	elemento.innerHTML = contenido;
+}
+
+function leerResultado(a){	
+	// leer la entrada y procesar 
+    var desayunos = 0.0, comidas = 0.0, meriendas = 0.0, cenas = 0.0, copas = 0.0;
+    var output = new Array();
+    var max, min, media = 0.0;
+    var comida_media, respuesta;
+	entradaTexto=a.split('\n');
+	for (i = 0; i < entradaTexto.length; i++) 
+    { 
+		var linea=entradaTexto[i].split(',');
+        var linea2 = linea[0].split(' ');
+        console.log('linea2[0]: ' + linea2[0]);
+        console.log('linea2[1]: ' + linea2[1] + ' Tipo: ' + typeof(cenas));
+        console.log('linea2: ' + linea2);
+        //console.log('Tipo liena2[1]: ' + typeof(linea2[1]));
+        console.log('Linea2 lengt: ' + linea2.length);
+        if(linea2.length > 1)  //LINEA AÑADIDA PARA QUE AL LEER UN ARCHIVO MUY GRANDE NO SALGA ERROR.
+        {
+            linea2[1]=linea2[1].slice(0,-1);
+            console.log('Cenas acumulando: ' + cenas + ' linea2[0]: ' + linea2[0] + ' Antes de if');
+            if(!linea2[1].match(/(\d.\d|\d)/))  //Buscar una expresion reg para numeros decimales y enteros
+            {
+                console.log('Cenas acumulando: ' + cenas + ' linea2[0]: ' + linea2[0] + ' priemra rama');
+                console.log("CARACTERES NUMÉRICOS NO VÁLIDOS");
+                respuesta = "CARACTERES NUMÉRICOS NO VÁLIDOS";
+                while(entradaTexto[i][0]!='N')
+                    i++;
+                output.push(respuesta);
+                desayunos = 0.0;
+                comidas = 0.0;
+                meriendas = 0.0;
+                cenas = 0.0;
+                copas = 0.0;
+                media = 0.0;
+                max = "";
+                min = "";
+                //console.log("entradaTexto[i][0]: " + entradaTexto[i][0]);
+                //console.log("entradaTexto[i+1]: " + entradaTexto[i+1]);
+            }
+            else if(linea2[0]!='N' && linea2[0]!='E')
+            {
+                console.log('Cenas acumulando: ' + cenas + ' linea2[0]: ' + linea2[0] + ' segunda rama');
+                x = parseFloat(linea2[1]);
+                console.log('linea2[1] y x y linea2' + linea2[1], x, linea2);
+
+                if(linea2[0] == 'D')
+                    desayunos = desayunos + linea2[1];
+                else if(linea2[0] == 'A')
+                    comidas = comidas + linea2[1];
+                else if(linea2[0] == 'M')
+                    meriendas = meriendas + linea2[1];
+                else if(linea2[0] == 'I')
+                {
+                    console.log('Ha detectado la I en linea2[0]');
+                    console.log(linea2[1]);
+                   // var n = (linea2[1]);
+                    console.log('x: ' + x);
+                    cenas = cenas + x;
+                }
+                if(linea2[0] == 'C') {copas = copas + linea2[1];}
+                    
+                
+            }
+            else
+            {
+                console.log('Cenas acumulando: ' + cenas + ' linea2[0]: ' + linea2[0] + ' tercera rama');
+                console.log('Desayunos: ' + desayunos);
+                console.log('Meriendas: ' + meriendas);
+                console.log('Cenas: ' + cenas);
+                console.log('Comidas: ' + comidas);
+                console.log('Copas: ' + copas);
+                media = (desayunos + comidas + meriendas + cenas + copas) / 5;
+
+                if(desayunos > comidas && desayunos > meriendas && desayunos > cenas && desayunos > copas)
+                    max = "DESAYUNOS";
+                else if(comidas > desayunos && comidas > meriendas && comidas > cenas && comidas > copas)
+                    max = "COMIDAS";
+                else if(meriendas > desayunos && meriendas > comidas && meriendas > cenas && meriendas > copas)
+                    max = "MERIENDAS";
+                else if(cenas > desayunos && cenas > meriendas && cenas > comidas && cenas > copas)
+                    max = "CENAS";
+                else if(copas > desayunos && copas > meriendas && copas > cenas && copas > comidas)
+                    max = "COPAS";
+                else
+                    max = "EMPATE";
+
+                if(desayunos < comidas && desayunos < meriendas && desayunos < cenas && desayunos < copas)
+                    min = "DESAYUNOS";
+                else if(comidas < desayunos && comidas < meriendas && comidas < cenas && comidas < copas)
+                    min = "COMIDAS";
+                else if(meriendas < desayunos && meriendas < comidas && meriendas < cenas && meriendas < copas)
+                    min = "MERIENDAS";
+                else if(cenas < desayunos && cenas < meriendas && cenas < comidas && cenas < copas)
+                    min = "CENAS";
+                else if(copas < desayunos && copas < meriendas && copas < cenas && copas < comidas)
+                    min = "COPAS";
+                else
+                    min = "EMPATE";
+
+                if(comidas <= media)
+                    comida_media = "NO";
+                else
+                    comida_media = "SI";
+
+                console.log('Maximo: ' + max + '\nMinimo: ' + min);
+                respuesta = max + '#' + min  +'#' + comida_media;
+                output.push(respuesta);
+                desayunos = 0.0;
+                comidas = 0.0;
+                meriendas = 0.0;
+                cenas = 0.0;
+                copas = 0.0;
+                media = 0.0;
+                max = "";
+                min = "";
+            }
+        }
+	}
+
+    console.log(output);
+    console.log(output.length);
+	var elemento = document.getElementById('salida');
+    output = output.join("<br>")
+    elemento.innerHTML = output;
+}
+
+document.getElementById('file-input').addEventListener('change', leerArchivo, false); // añadir evento para llamar a la funcion leerArchivo
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>enteros</title>
+
+    
+</head>
+<body>
+    <script>
+        //Tuve que ejecutar el código dentro del body
+        //tenía problemas con el document.body.appendChild()
+        var n;
+        var arrayTextarea = new Array;
+        var arrayEnteros = new Array;
+        
+        function iniciar()
+        {
+            n = prompt('¿Cuántas cajas quiere [2,20]?');
+            while(!(n >= 2 && n <= 20))
+                n = prompt('¿Cuántas cajas quiere [2,20]?');
+            console.log(n);
+
+            crearTextArea('div1','caja', n);
+            
+
+            var ele = document.createElement('div');
+            ele.id = 'respuestas';
+            document.body.appendChild(ele);
+            var p = document.createElement('p');
+            p.id = 'parrafo';
+            ele.appendChild(p);
+            document.body.addEventListener('click', chequeos);
+        }
+
+        function crearTextArea(idDiv, idText, n)
+        {
+            var ele = document.createElement('div');
+            ele.id = idDiv;
+            ele.style.width = '95%';
+            console.log(ele);
+            for(var i = 0; i < n; i++)
+            {
+                arrayTextarea[i] = document.createElement('textarea');
+                arrayTextarea[i].id = idText + i;
+                arrayTextarea[i].setAttribute("cols","4");
+                arrayTextarea[i].setAttribute("rows","1");
+                arrayTextarea[i].setAttribute("maxlenght","4");
+                arrayTextarea[i].style.height = "1.2em";
+                arrayTextarea[i].resize = "none";
+                //arrayTextarea[i].addEventListener("click", chequeos);
+                ele.appendChild(arrayTextarea[i]);
+            }
+            console.log(arrayTextarea);
+            document.body.appendChild(ele);
+        }
+
+        function chequeos()
+        {
+            for(var i = 0; i < n; i++)
+                arrayEnteros[i] = parseInt(arrayTextarea[i].value);
+            console.log(arrayEnteros);
+            comprobarVacio();
+        }
+
+        function comprobarVacio()
+        {
+            var j = 0;
+            for(var i = 0; i < arrayEnteros.length; i++)
+            {
+                if(arrayEnteros[i] == "")
+                {
+                    j++;
+                    document.getElementById('parrafo').innerHTML = 'Faltan' + j + 'por rellenar';
+                }
+            }
+        }
+        window.onload = iniciar();
+    </script>
+</body>
+</html>

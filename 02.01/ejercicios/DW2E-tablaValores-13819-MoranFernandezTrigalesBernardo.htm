@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tablaValores</title>
+
+    <script>
+        var arrayCos = new Array();
+        
+        function iniciar()
+        {
+            rellenaArray(arrayCos);
+
+            imprimeArray(arrayCos);
+            console.log(arrayCos);
+        }
+
+        function imprimeArray(arrayCos)
+        {
+            var ele = document.createElement('div');
+            document.body.appendChild(ele);
+            ele.id = 'div1';
+            for(var i = 0; i < arrayCos.length; i++);
+            {
+                var tmp = arrayCos[i];
+                var p = document.createElement('p');
+                p.innerHTML = tmp.x + '#' + x.cos + '#' + x.sen + '#' + x.sen14dec + '#' + x.todosDec;
+                document.getElementById(ele.id).appendChild(p);
+            }
+           
+        }
+        function rellenaArray(arrayCos)
+        {
+            var j = 0.0;
+            var i = 0;
+            while(j <= 12.0)
+            {
+                arrayCos[i] = crearObjetos(j);
+                i++;
+                j = j + 0.6;
+            }
+        }
+
+        function crearObjetos(v)
+        {
+            var tmp = new Object();
+            var catorce = Math.pow(10,14);
+            tmp.x = Math.round(v * 100) / 100;
+            tmp.cos = Math.round(Math.cos(v) * 100) / 100;
+            tmp.sen =  Math.round(Math.sin(v) * 100) / 100;
+            tmp.sen14dec =  Math.sin(v).toPrecision(14);
+            tmp.todosDec = tmp.x.toPrecision(14);
+            return tmp;
+        }
+        window.onload = iniciar();
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

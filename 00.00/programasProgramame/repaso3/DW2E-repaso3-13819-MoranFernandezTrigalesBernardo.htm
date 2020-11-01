@@ -1,0 +1,92 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>R01</title>
+</head>
+
+<body>
+
+	<h3>Archivo de entrada:</h3>
+	<input type="file" id="file-input" /><!-- carga del archivo entrada0.txt -->
+	<h3>Entrada:</h3>
+	<pre id="entrada"></pre>
+	<h3>Salida:</h3>
+	<pre id="salida"></pre>
+
+	<script>
+		/* fuente: https://es.stackoverflow.com/questions/54734/c%C3%B3mo-leer-un-archivo-txt-desde-javascript */
+
+		var entradaTexto = new Array(); /* array para almecenar las lineas de entrada archivo */
+
+		function leerArchivo(e) {
+			// esta funcion lee un archivo de texto local y lo deja en la variable contenido
+			var archivo = e.target.files[0];
+			if (!archivo) {
+				return;
+			}
+			var lector = new FileReader(); // objeto para leer el fichero
+			lector.onload = function (e) { // callback con el evento de carga del archivo
+				var contenido = e.target.result;
+				mostrarContenido(contenido);
+				leerResultado(lector.result);
+			};
+			lector.readAsText(archivo);
+		}
+
+		function mostrarContenido(contenido) {
+			// usar el dom para mostrar el contenido
+			var elemento = document.getElementById('entrada');
+			elemento.innerHTML = contenido;
+		}
+
+		function leerResultado(a) {
+			// leer la entrada y procesar
+			var respuesta = new Array();
+			entradaTexto = a.split('\n');
+			console.log(entradaTexto);
+			console.log('Entrada texto: ' + entradaTexto);
+			for (var i = 0; i < entradaTexto.length; i = i + 2) {
+				if (entradaTexto[i] != '0 0 0') {
+					var primeraLinea = entradaTexto[i];
+					primeraLinea = primeraLinea.split(' ');
+					var segundaLinea = entradaTexto[i + 1];
+					segundaLinea = segundaLinea.split(' ');
+					//Datos formateados. 
+					//Ahora el programa compruebe si LO SABE o NO LO SABE
+					var n = parseInt(primeraLinea[2]);
+					for (var j = 1; j < primeraLinea.length; j = j + 2) {
+
+						if (primeraLinea[0] == primeraLinea[1] && segundaLinea[j] == n)
+							respuesta.push("LO SABE");
+						else if (((primeraLinea[1] - primeraLinea[0]) == 1) && (segundaLinea[j] == n || segundaLinea[j] == n -
+								1 || segundaLinea[j] == n + 1))
+							respuesta.push("LO SABE");
+						else if (segundaLinea[j] == n && segundaLinea[j + 1] == n + 1 && j != segundaLinea.length - 1)
+							respuesta.push("LO SABE");
+						else if (segundaLinea[j] == n + 1 && segundaLinea[j + 1] == n && j != segundaLinea.length - 1)
+							respuesta.push("LO SABE");
+						else
+							respuesta.push("NO LO SABE")
+					}
+
+				}
+
+			}
+			// imprimir la salida
+			resul = "sin procesar";
+			var elemento = document.getElementById('salida');
+			respuesta = respuesta.join('<br>');
+			elemento.innerHTML = respuesta;
+		}
+
+		document.getElementById('file-input').addEventListener('change', leerArchivo,
+			false); // añadir evento para llamar a la funcion leerArchivo
+	</script>
+
+</body>
+
+</html>

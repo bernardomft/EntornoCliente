@@ -1,0 +1,73 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>tablero3</title>
+
+    <script>
+        var arrayCajasDiv = new Array();
+        function iniciar() {
+            
+            var j = 1, k = 1;
+            //No es necesario crear este array. Se puede llamar a la función crearNodo() sin guardar el resultado en ninguna variable.
+            //Lo hice así para guardar los div creados y poder reutilizar el código.
+            for (var i = 0; i < 64; i++) {
+                var str = 'caja' + k;
+                str = str + j;
+                arrayCajasDiv[i] = creaNodo('div', str, i);
+                if(j == 8){
+                    j = 1;
+                    k++;
+                }
+                else 
+                    j++;
+            }
+        }
+
+        function creaNodo(tipo, str, i) {
+            //se crea div
+            var ele = document.createElement(tipo); // crear nodo
+            ele.id = str;
+            //se crea p
+            var p = document.createElement('p');
+            //p.id = str+'p';
+            //estilos de p
+            p.innerHTML = 'H' + str.slice(4,6);
+            p.style.margin = '0 0';
+            //estilos de ele
+            ele.style.backgroundColor = 'Cyan';
+            ele.style.border = '1px solid #000';
+            ele.style.width = Math.floor((Math.random()*250)+50).toString() + 'px';
+            ele.style.height =  Math.floor((Math.random()*125)+50).toString() + 'px';
+            if ((i) % 8 == 0)
+                ele.style.clear = 'left';
+            ele.style.float = 'left';
+            ele.style.margin = '10px';
+            ele.style.cursor = 'pointer';
+            //posicionar elementos en el dom
+            document.body.appendChild(ele);
+            document.getElementById(str).appendChild(p);
+            ele.addEventListener('click', clickMenu);
+            return ele;
+        }
+
+        function clickMenu() {
+            if(this.id == "caja88")
+            {
+                for( var i = 0; i < arrayCajasDiv.length; i++)
+                    arrayCajasDiv[i].firstElementChild.innerHTML = "";
+            }else
+                this.firstElementChild.innerHTML = 'C' + this.id.slice(4,6);
+        }
+
+        window.onload = iniciar; // sin parentesis , al final del head
+    </script>
+
+</head>
+
+<body>
+</body>
+
+</html>

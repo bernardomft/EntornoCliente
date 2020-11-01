@@ -1,0 +1,57 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>paginaBasica2</title>
+
+	<script>
+		function iniciar() {
+            //se crean los tres nodos
+			var menu1 = creaNodo('div','menu1');
+            var menu2 = creaNodo('div','menu2');
+            var menu3 = creaNodo('div','menu3');
+			// Eventos :hover
+            menu1.children.addEventListener('mouseover', colorGris);
+           // menu1.children.addEventListener('mouseenter', colorBlanco);
+        
+		}
+
+        function colorGris(){
+            this.style.backgroundColor= 'grey';
+        }
+
+        function colorBlanco(){
+            this.style.backgroundColor= 'white';
+        }
+		function creaNodo(tipo,str) {
+            //se crea div
+			var ele = document.createElement(tipo); // crear nodo
+            ele.id=str;
+            //se crea p
+            var p = document.createElement('p');
+            //estilos de p
+            p.innerHTML = str;
+            p.style.textAlign = 'center';
+            p.style.border = '1px solid #000';
+            p.style.padding = '5px';
+            //estilos de ele
+			ele.style.width = '100px';
+			ele.style.height = '40px';
+            ele.style.float='left';
+            ele.style.margin = '10px';
+            //posicionar elementos en el dom
+			document.body.appendChild(ele);
+            document.getElementById(str).appendChild(p);
+			return ele;	
+		}
+		window.onload = iniciar; // sin parentesis , al final del head
+	</script>
+
+</head>
+
+<body>
+</body>
+
+</html>

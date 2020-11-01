@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ejercicio-C-madrid-2011</title>
+
+</head>
+ 
+<body>
+
+<input type="file" id="file-input" />
+
+<script type="text/javascript">
+
+var datosEntrada = []; // global 
+
+function leerArchivo(e) {
+	var archivo = e.target.files[0];
+	if (!archivo) {	return;	}
+	var lector = new FileReader(); 		
+	lector.onload = function(e) { 		
+	var contenido = e.target.result;
+	leerResultado(lector.result);	
+	};
+	lector.readAsText(archivo);
+}
+
+function leerResultado(a){	
+	var entradaTexto = []; 
+	entradaTexto=a.split('\r\n');
+	console.log('ARRAY=',entradaTexto);
+	for (i = 0; i < entradaTexto.length; i++) { 
+		var linea=entradaTexto[i].split(',');
+		console.log(linea);
+		for (j = 0; j < linea.length; j++) { 
+			datosEntrada.push(linea[j]);
+			console.log(i,j,linea[j]);
+		}   
+	}		
+	procesar();	
+}
+
+document.getElementById('file-input').addEventListener('change', leerArchivo, false);
+
+function procesar(){
+
+console.log(datosEntrada);
+
+var d1,d2,i=0;
+var temporal=[0,0,0,0,0];	
+var tipos=['DESAYUNO','COMIDA','MERIENDA','CENAS','COPAS'];
+
+document.write('<b>Entrada</b><br/>');
+do{
+	d1=datosEntrada[i];
+	d2=datosEntrada[i+1];
+	document.write(d1+" "+d2+"<br/>");
+	i+=2;
+} while(d1!='E') // marca de fin de fichero	
+
+document.write('<b>Salida</b><br/>');
+var i=0; 
+do{
+	d1=datosEntrada[i];
+	d2=datosEntrada[i+1];
+	if ( d1!='N' && d1!='E' ){	
+		if (d1=='D'){j=0;} // desayuno
+		if (d1=='A'){j=1;} // comida
+		if (d1=='M'){j=2;} // merienda
+		if (d1=='I'){j=3;} // cenas
+		if (d1=='C'){j=4;} // copas
+		temporal[j]=temporal[j]+parseFloat(d2); // acumular por categoria
+	}
+	else{			
+		var j=0;				
+		var maximo=-1,minimo=999,media=0,suma=0,elementos=0,vmin,vmax,cmin=0,cmax=0;
+		// maximo,minimo: almacena el numero mas alto y bajo de la lista
+		// media,suma,elementos; calculo de la media		
+		// vmin,vmax: indice donde esta el maximo y el minimo
+		// cmin,cmax: contador de maximos o minimos
+
+		for (k=0;k<temporal.length;k++){
+			console.log(k+" --"+temporal[k]);
+			//if (temporal[k]!=0){ // no excluir las categorias con cero para efectos de empate
+				if (temporal[k]==minimo){cmin++;}
+				if (temporal[k]==maximo){cmax++;}
+				if (temporal[k]<minimo){minimo=temporal[k];vmin=k;cmin=0}
+				if (temporal[k]>maximo){maximo=temporal[k];vmax=k;cmax=0}	
+				if (temporal[k]!=0){
+					elementos++;
+					suma+=temporal[k];
+				}
+			//}		
+		}
+		media=suma/elementos; // division numeros reales , entre cero da NaN
+
+		console.log("minimo:"+vmin+" maximo:"+vmax+" elementos:"+elementos+" suma:"+suma+" media:"+media+" empate maximo:"+cmax+' empate minimo:'+cmin);
+		
+		// imprimir resultados
+		
+		var cat=tipos[vmax];
+		if (cmax>0){cat='EMPATE';}											
+		document.write(cat+"#");
+		
+		cat=tipos[vmin];
+		if (cmin>0){cat='EMPATE';}											
+		document.write(cat+"#");
+		
+		if (temporal[1]>media){cat='SI';}else{cat='NO';}
+		document.write(cat+"<br/>");
+		
+		var temporal = [0,0,0,0,0]; // reset para el proximo dia
+		j=0;
+	}		
+	i+=2; // leer entrada de dos en dos 		
+} while(d1!='E') // fin de entrada	
+
+}
+</script>	
+
+</body>
+</html>

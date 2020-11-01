@@ -1,0 +1,9 @@
+grupo: DW2E
+-expediente: 13819
+-nombre: Bernardo Morán Fernáqndez-Trigales
+-estudios previos: E.S.O., Bacchillerato, primero de este grado y dos cursos y medio de Ingeniería de Telecomunicaciones 
+-espectativas con el modulo: Aprender Javascript para gestionar otras funcionalidades de la parte FrontEnd.
+-dificultades esperadas para cursar este módulo. El tipado dinámino y scope de JavaScript
+-tiene problemas con el horario de clase para su asistencia ? No
+-trabaja actualmente ? No
+-trabaja en informatica, en que campo ? No

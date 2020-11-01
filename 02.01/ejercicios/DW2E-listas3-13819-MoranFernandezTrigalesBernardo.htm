@@ -1,0 +1,168 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>listas3</title>
+
+	<script>
+
+		var num = 10;
+		var arrayCajas = new Array();
+		function iniciar() {
+			//primer div con texto
+			creaNodo('div', 'Listado (texto: nivel y versión)', 'div1');
+			//Creo los objetos y los guardo en arrayCajas
+			for(var i = 0; i < num; i++)
+			{
+				var tmp = new Object();
+				rellenarObjeto(tmp);
+				arrayCajas[i] = tmp;
+			}	
+			//Creo el div donde voy a meter los objetos y los meto
+			creaNodo2('contenedor1');
+			crearNodoElementos('contenedor1', '1');
+
+			//Div y filtrado Ascendente
+			creaNodo('div', 'Ascendente X version', 'div2');
+			creaNodo2('contenedor2');
+
+			var arrayAscendente = arrayCajas.sort(function (a, b){
+				return(a.version - b.version);
+			});
+			crearNodoElementos('contenedor2','2');
+
+			//Div y filtrado Descendente
+			creaNodo('div', 'Descendente X version', 'div3');
+			creaNodo2('contenedor3');
+
+			var arrayDescendente = arrayCajas.sort(function (a, b){
+				return(b.version - a.version);
+			});
+			crearNodoElementos('contenedor3','3');
+
+			//Div y filtrado por version
+			creaNodo('div', 'Descendente X version', 'div4');
+			creaNodo2('contenedor4');
+
+			var arrayDescendente = arrayCajas.sort(function (a, b){
+				return(b.version - a.version);
+			});
+			crearNodoElementos('contenedor4','4');
+
+			//Div y filtrado por version
+			var str = sumaVersiones(arrayCajas);
+			creaNodo3('div', str, 'div5');
+			//document.getElementById('div5').firstChild.innerHTML = str;
+			
+
+			//console log para controlar los objetos
+			console.log(arrayCajas);
+		}
+		
+		function creaNodo3(tipo, str, id) {
+			//se crea div
+			var ele = document.createElement(tipo); // crear nodo
+			ele.id = id;
+			//se crea p
+			var p = document.createElement('p');
+			//estilos de p
+			p.innerHTML = '<b>suma: </b>' + str;
+			p.style.margin = '0 0';
+			//estilos de ele
+			ele.style.border = '1px solid #000';
+			ele.style.width = '95%';
+			ele.style.margin = '0 auto';
+			//posicionar elementos en el dom
+			document.body.appendChild(ele);
+			document.getElementById(id).appendChild(p);
+			return ele;
+		}
+
+		function sumaVersiones(arrayCajas)
+		{
+			var suma = 0;
+			for(var i = 0; i < arrayCajas.length; i++)
+				suma = suma + arrayCajas[i].version;
+			return suma.toString();
+		}
+
+		function crearNodoElementos(id ,j)
+		{
+			for(var i = 0; i < arrayCajas.length; i++)
+			{
+				var ele = document.createElement('div');
+				ele.id = 'caja' + j + (i + 1).toString();
+				ele.style.backgroundColor = arrayCajas[i].color;
+				ele.style.width = arrayCajas[i].ancho;
+				ele.style.height = arrayCajas[i].alto;
+				ele.style.float = 'left';
+				ele.style.textAlign = 'center';
+				ele.style.border = '1px solid #000';
+				ele.style.margin = '5px 0 0 10px';
+				var p = document.createElement('p');
+				p.innerHTML = arrayCajas[i].texto + ':' + arrayCajas[i].nivel + 
+								'<br>' + arrayCajas[i].version;
+				document.getElementById(id).appendChild(ele);
+				document.getElementById('caja'+ j + (i +1).toString()).appendChild(p);
+			}
+		}
+		
+		function creaNodo2(id)
+		{
+			//Div principal
+			var ele = document.createElement('div');
+			ele.id = id;
+			//Estilos de el div principal
+			ele.style.border = '1px solid #000';
+			ele.style.width = '95%';
+			ele.style.margin = '1em auto';
+			ele.style.height = '120px'
+			//se ponen los elementos en el body
+			document.body.appendChild(ele);
+		}
+
+		function creaNodo(tipo, str, id) {
+			//se crea div
+			var ele = document.createElement(tipo); // crear nodo
+			ele.id = id;
+			//se crea p
+			var p = document.createElement('p');
+			//estilos de p
+			p.innerHTML = str;
+			p.style.margin = '0 0';
+			//estilos de ele
+			ele.style.border = '1px solid #000';
+			ele.style.width = '95%';
+			ele.style.margin = '0 auto';
+			//posicionar elementos en el dom
+			document.body.appendChild(ele);
+			document.getElementById(id).appendChild(p);
+			return ele;
+		}
+
+		function rellenarObjeto(tmp)
+		{
+			var arrayLetras = ['A', 'B', 'C'];
+			var arrayAltos = ['50', '70', '90'];
+			var strLetras = 'ABCDEFGHIJL';
+			tmp.alto = arrayAltos[ Math.floor(Math.random() * (2)) + 0] + 'px';
+			tmp.ancho = (Math.floor(Math.random() * (60)) + 40) + 'px'; 
+			tmp.color = 'rgb(' + (Math.floor(Math.random() * (255)) + 250)
+						 + ', ' + (Math.floor(Math.random() * (255)))
+						 + ', ' + (Math.floor(Math.random() * (255)))
+						 + ')';
+			tmp.nivel = arrayLetras[ Math.floor(Math.random() * (2)) + 0];
+			tmp.texto = strLetras.charAt(Math.floor(Math.random() * (10)) + 0);
+			tmp.version = (Math.floor(Math.random() * (9)) + 0);
+		}
+		window.onload = iniciar;
+	</script>
+
+</head>
+
+<body>
+</body>
+
+</html>

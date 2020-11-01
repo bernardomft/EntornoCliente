@@ -1,0 +1,130 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>ElBarDeJavier</title>
+</head>
+
+<body>
+
+	<h3>Archivo de entrada:</h3>
+	<input type="file" id="file-input" /><!-- carga del archivo entrada0.txt -->
+	<h3>Entrada:</h3>
+	<pre id="entrada"></pre>
+	<h3>Salida:</h3>
+	<pre id="salida"></pre>
+
+	<script>
+		/* fuente: https://es.stackoverflow.com/questions/54734/c%C3%B3mo-leer-un-archivo-txt-desde-javascript */
+
+		var entradaTexto = new Array(); /* array para almecenar las lineas de entrada archivo */
+
+		function leerArchivo(e) {
+			// esta funcion lee un archivo de texto local y lo deja en la variable contenido
+			var archivo = e.target.files[0];
+			if (!archivo) {
+				return;
+			}
+			var lector = new FileReader(); // objeto para leer el fichero
+			lector.onload = function (e) { // callback con el evento de carga del archivo
+				var contenido = e.target.result;
+				mostrarContenido(contenido);
+				leerResultado(lector.result);
+			};
+			lector.readAsText(archivo);
+		}
+
+		function mostrarContenido(contenido) {
+			// usar el dom para mostrar el contenido
+			var elemento = document.getElementById('entrada');
+			elemento.innerHTML = contenido;
+		}
+
+		function addZeros(str, n) {
+			var result, tmp = str;
+			for (var i = 0; i < n; i++) {
+				result = "0" + tmp;
+				tmp = result;
+			}
+			return (result);
+		}
+
+		function sumatoria(n, long) {
+			var n_tmp = parseInt(n / 10);
+			if(long == 13)
+				var i = long - 2;
+			else
+				var i = long - 1;
+			var res = 0,
+				par = 0,
+				impar = 0;
+			while (n_tmp / 10 > 0) {
+				if (i % 2 == 0)
+					par = par + n_tmp % 10;
+				else
+					impar = impar + (n_tmp % 10);
+				i--;
+				n_tmp = parseInt(n_tmp / 10);
+			}
+			res = par + impar * 3;
+			if ((res + n % 10) % 10 == 0)
+				return ("SI");
+			else
+				return ("NO");
+		}
+
+
+		function leerResultado(a) {
+			var datos = ["0", "380", "50", "539", "560", "70", "759", "850", "890"];
+			var paises = ["EEUU", "BULGARIA", "INGLATERRA", "IRLANDA", "PORTUGAL", "NORUEGA", "VENEZUELA", "CUBA", "INDIA"];
+			var respuesta = new Array();
+			entradaTexto = a.split('\r\n');
+			var data_str = "";
+			var i = 0,
+				n_tmp, long;
+			while (entradaTexto[i] != 0) {
+				var data_int = parseInt(entradaTexto[i]);
+				console.log("Entrada[" + i + "]: " + entradaTexto[i]);
+				if (entradaTexto[i].length < 8) {
+					data_str = addZeros(entradaTexto[i], (8 - parseInt(entradaTexto[i].length)));
+				} else if (entradaTexto[i].length > 8 && entradaTexto[i].length < 13) {
+					data_str = addZeros(entradaTexto[i], (13 - parseInt(entradaTexto[i].length)));
+				} else {
+					data_str = entradaTexto[i];
+				}
+				n_tmp = sumatoria(data_int, data_str.length);
+				console.log("n_tmp:+ " + n_tmp);
+
+				if (data_str.length == 13 && n_tmp != "NO") {  //añadir condicion para que solo salga cuando es n_tmp = "SI"
+
+					if (datos.indexOf(data_str.slice(0, 1)) != -1) {
+						n_tmp = n_tmp + " " + paises[datos.indexOf(data_str.slice(0, 1))];
+					} else if (datos.indexOf(data_str.slice(0, 2)) != -1) {
+						n_tmp = n_tmp + " " + paises[datos.indexOf(data_str.slice(0, 2))];
+					} else if (datos.indexOf(data_str.slice(0, 3)) != -1) {
+						n_tmp = n_tmp + " " + paises[datos.indexOf(data_str.slice(0, 3))];
+					} else {
+						n_tmp = n_tmp + " DESCONOCIDO"
+					}
+				}
+				respuesta.push(n_tmp);
+				i++;
+			}
+
+			// imprimir la salida
+			resul = "sin procesar";
+			var elemento = document.getElementById('salida');
+			respuesta = respuesta.join('<br>');
+			elemento.innerHTML = respuesta;
+		}
+
+		document.getElementById('file-input').addEventListener('change', leerArchivo,
+			false); // añadir evento para llamar a la funcion leerArchivo
+	</script>
+
+</body>
+
+</html>

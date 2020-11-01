@@ -1,0 +1,180 @@
+﻿codigo fuente ===
+r00         : plantilla básica
+r01         : plantilla avanzada
+entrada     : entrada de datos 
+repaso1     : madrid-2011-ejecicio-C
+repaso2     : madrid-2011-ejercicio-A
+repaso3     : B-nacional-2016
+
+enunciados ===
+http://www.programa-me.com/archive.php
+
+requisitos ===
+repaso1
+no se pueden repetir las entradas
+se divide entra las ventas es decir las lineas en la entrada que no tengan cero
+
+repaso2
+los codigos son de 8 o 13 digitos
+el codigo del pais de 1 a 3 digitos
+se rellena a ceros y luego se comprueba el pais
+
+LENGUAJE JAVASCRIPT ===
+
+REPASO1
+parseFloat(d2)	; conversion de tipos		
+( d1!='N' && d1!='E' )	; operador AND 
+var tipos=['DESAYUNO','COMIDA','MERIENDA','CENAS','COPAS'] ; array de cadenas
+media=suma/elementos ; división 
+
+REPASO2
+if (d1.length<8) ; longitud de una cadena
+resul=(Math.trunc(acumulador/10)+1)*10-acumulador ; operar con numeros reales y operaciones matematicas
+if (acumulador%10==0) ; modulo o resto
+busca=d1.substr(0,1) ; funciones de cadena
+iPais=nPais.indexOf(busca) ; buscar en un array
+
+REPASO3
+var tmp=d1.split(',') ; dividir por separadores
+var ini=tmp[0],fin=tmp[1],oculto=tmp[2];
+if (error==false){if ( parseInt(ini)<1 ){error=true;}} ; comparador,conversion enteros
+for (j=1;j<parseInt(tmp[0])+1;j++){if (tmp[j]==oculto){esta='LO SABE';break;} ; salir del bucle} 
+
+CASOS DE PRUEBA ===
+
+repaso1 ==
+entrada
+D 2.8
+C 48
+A 8
+N 0
+D 15.33
+A 60
+M 12
+I 25
+E 0
+salida
+COPAS#EMPATE#NO
+COMIDA#COPAS#SI
+
+repaso1 == (consideramos que es posible repetir letra)
+entrada
+D 2.8
+D 2.8
+C 2.8
+A 2.8
+A 2.8
+N 0
+D 15.33
+A 60
+M 12
+I 25
+N 0
+D 3
+C 2
+A 1
+M 3
+E 0
+salida
+EMPATE#EMPATE#SI
+COMIDA#COPAS#SI
+EMPATE#CENAS#NO
+
+entrada
+65839522
+65839521
+3804533043847
+3804533043841
+704533043847
+704533043849
+8414533043847
+3803657794257
+5603657794251
+0123657794259
+5003657794259
+7003657794257
+8905657794253
+7595657794257
+5093657794250
+5093657794251
+5093657794252
+5093657794253
+5093657794254
+5093657794255
+5093657794256
+5093657794257
+5093657794258
+5093657794259
+519365779426
+1234567000000
+0001234567804
+62
+6
+1234567895
+4
+0
+salida
+SI (65839522)
+NO (65839521)
+NO (3804533043847)
+SI#bulgaria (3804533043841)
+SI#EEUU (0704533043847)
+NO (0704533043849)
+SI#desconocido (8414533043847)
+SI#bulgaria (3803657794257)
+SI#portugal (5603657794251)
+SI#EEUU (0123657794259)
+SI#inglaterra (5003657794259)
+SI#noruega (7003657794257)
+SI#india (8905657794253)
+SI#venezuela (7595657794257)
+SI#inglaterra (5093657794250)
+NO (5093657794251)
+NO (5093657794252)
+NO (5093657794253)
+NO (5093657794254)
+NO (5093657794255)
+NO (5093657794256)
+NO (5093657794257)
+NO (5093657794258)
+NO (5093657794259)
+SI#EEUU (0519365779426)
+NO (1234567000000)
+NO (0001234567804)
+SI (00000062)
+NO (00000006)
+SI#EEUU (0001234567895)
+NO (00000004)
+
+repaso ===
+entrada
+1 1 1
+1 1
+
+1 2 2
+1 1
+
+1 2 2
+1 2
+
+1 10 4
+2 1 4
+
+1 10 1
+2 1 2
+
+1 1000 450
+2 400 500
+0 0 0
+
+salida
+LO SABE (#1,1,1#1,1#)
+
+LO SABE (#1,2,2#1,1#)
+
+LO SABE (#1,2,2#1,2#)
+
+NO LO SABE (#1,10,4#2,1,4#)
+
+LO SABE (#1,10,1#2,1,2#)
+NO LO SABE (#1,1000,450#2,400,500#)
