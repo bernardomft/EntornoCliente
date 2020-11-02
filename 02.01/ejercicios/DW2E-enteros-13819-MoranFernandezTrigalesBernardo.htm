@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>enteros</title>
 
-    
+
 </head>
+
 <body>
     <script>
         //Tuve que ejecutar el código dentro del body
         //tenía problemas con el document.body.appendChild()
         var n;
         var arrayTextarea = new Array;
-        var arrayEnteros = new Array;
-        
-        function iniciar()
-        {
+        var arrayValores = new Array;
+
+        function iniciar() {
             n = prompt('¿Cuántas cajas quiere [2,20]?');
-            while(!(n >= 2 && n <= 20))
+            while (!(n >= 2 && n <= 20))
                 n = prompt('¿Cuántas cajas quiere [2,20]?');
             console.log(n);
 
-            crearTextArea('div1','caja', n);
-            
+            crearTextArea('div1', 'caja', n);
+
 
             var ele = document.createElement('div');
             ele.id = 'respuestas';
@@ -34,19 +35,17 @@
             document.body.addEventListener('click', chequeos);
         }
 
-        function crearTextArea(idDiv, idText, n)
-        {
+        function crearTextArea(idDiv, idText, n) {
             var ele = document.createElement('div');
             ele.id = idDiv;
             ele.style.width = '95%';
             console.log(ele);
-            for(var i = 0; i < n; i++)
-            {
+            for (var i = 0; i < n; i++) {
                 arrayTextarea[i] = document.createElement('textarea');
                 arrayTextarea[i].id = idText + i;
-                arrayTextarea[i].setAttribute("cols","4");
-                arrayTextarea[i].setAttribute("rows","1");
-                arrayTextarea[i].setAttribute("maxlenght","4");
+                arrayTextarea[i].setAttribute("cols", "4");
+                arrayTextarea[i].setAttribute("rows", "1");
+                arrayTextarea[i].setAttribute("maxlenght", "4");
                 arrayTextarea[i].style.height = "1.2em";
                 arrayTextarea[i].resize = "none";
                 //arrayTextarea[i].addEventListener("click", chequeos);
@@ -56,27 +55,69 @@
             document.body.appendChild(ele);
         }
 
-        function chequeos()
-        {
-            for(var i = 0; i < n; i++)
-                arrayEnteros[i] = parseInt(arrayTextarea[i].value);
-            console.log(arrayEnteros);
-            comprobarVacio();
+        function chequeos() {
+            for (var i = 0; i < arrayTextarea.length; i++) {
+                arrayValores[i] = arrayTextarea[i].value;
+            }
+            //console.log(arrayValores);
+            //TODOS RELLENOS Y SON ENTEROS
+            if (todosRellenos() && sonEnteros()) {
+                var ascendente = arrayValores.sort(function (a, b) {
+                    return (a - b);
+                });
+                document.getElementById('parrafo').innerHTML = 'Orden ascendente: ' + ascendente.join(' ');
+            }
+
+            //Todos rellenos y alguno no enterto
+            if(todosRellenos() && !(sonEnteros()))
+                document.getElementById('parrafo').innerHTML = 'hay entradas que no son enteros';
+            
+            //Alguna por rellenar
+            else if(!(todosRellenos() && !(todasVacias())))
+                cuentaVacio();
+
+            //alguna no es un numero
+            else if(!(sonEnteros()))
+                document.getElementById('parrafo').innerHTML = 'alguno no es un entero';
+            else if(todasVacias())
+                document.getElementById('parrafo').innerHTML = 'rellene con enteros';
         }
 
-        function comprobarVacio()
+        function cuentaVacio()
         {
             var j = 0;
-            for(var i = 0; i < arrayEnteros.length; i++)
-            {
-                if(arrayEnteros[i] == "")
-                {
+            for (var i = 0; i < arrayValores.length; i++) {
+                if (arrayValores[i] == "")
                     j++;
-                    document.getElementById('parrafo').innerHTML = 'Faltan' + j + 'por rellenar';
-                }
             }
+            document.getElementById('parrafo').innerHTML = 'faltan  ' + j + ' entradas por rellenar';
+        }
+
+        function sonEnteros() {
+            for (var i = 0; i < arrayValores.length; i++) {
+                if (isNaN(parseInt(arrayValores[i])))
+                    return false;
+            }
+            return true;
+        }
+
+        function todosRellenos() {
+            for (var i = 0; i < arrayValores.length; i++) {
+                if (arrayValores[i] == "")
+                    return false;
+            }
+            return true;
+        }
+
+        function todasVacias() {
+            for (var i = 0; i < arrayValores.length; i++) {
+                if (arrayValores[i] != "")
+                    return false;
+            }
+            return true;
         }
         window.onload = iniciar();
     </script>
 </body>
+
 </html>

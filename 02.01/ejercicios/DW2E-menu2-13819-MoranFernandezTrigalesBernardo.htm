@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>menu2</title>
+
+</head>
+
+<body>
+    <script>
+        var arrayCos = new Array();
+        var arrayObj = new Array();
+        var codigos = ['A', 'B', 'C', 'D'];
+        var continentes = ['america', 'europa', 'africa', 'asia'];
+        var paises = ['canada', 'eeuu', 'brasil', 'argentina', 'uruguay', 'chile', 'francia', 'italia'];
+        var ciudades = ['toronto', 'quebec', 'lyon', 'paris', 'bayona', 'nantes', 'toulouse'];
+        //Tengo q poner los titulos
+
+        function iniciar() {
+            rellenaArray(arrayObj);
+            imprimeArray(arrayObj);
+
+            crearMenu();
+
+        }
+
+
+        function crearMenu() {
+            var ele = document.createElement('div');
+            ele.id = 'menu';
+            document.body.appendChild(ele);
+
+            for (var i = 0; i < arrayObj.length; i++) {
+                if (arrayObj[i].codigo.charAt(0) === 'A')
+                    creaMenuCampo(ele, i);
+            }
+        }
+
+        function creaMenuCampo(ele, i) {
+            var p = document.createElement('a');
+            p.style.border = '1px solid #000000';
+            p.style.float = 'left';
+            p.id = arrayObj[i].codigo;
+            p.innerHTML = arrayObj[i].nombre;
+            ele.appendChild(p);
+            p.addEventListener('click', menu);
+        }
+
+        function menu() {
+            var ele = document.getElementById("menu");
+            while (ele.firstChild) {
+                ele.removeChild(ele.firstChild);
+            }
+            for (var i = 0; i < arrayObj.length; i++) {
+                if (arrayObj[i].ancestro === this.id)
+                    creaMenuCampo(ele, i);
+            }
+        }
+
+        function rellenaArray(arrayObj) {
+            var i = 0;
+            while (i <= 3) {
+                arrayObj[i] = crearObjetos1(i);
+                i++;
+            }
+            var j = 0;
+            while (i <= 11) {
+                arrayObj[i] = crearObjetos2(j);
+                i++;
+                j++;
+            }
+            var z = 0;
+            while (i <= 17) {
+                arrayObj[i] = crearObjetos3(z);
+                i++;
+                z++;
+            }
+            console.log(arrayObj)
+        }
+
+
+
+        function crearObjetos1(i) {
+            var tmp = new Object();
+            tmp.codigo = codigos[0] + (i + 1);
+            tmp.nombre = continentes[i];
+            tmp.ancestro = '00';
+            return tmp;
+        }
+
+        function crearObjetos2(j) {
+            var tmp = new Object();
+            tmp.codigo = codigos[1] + (j + 1);
+            tmp.nombre = paises[j];
+            if (j <= 5)
+                tmp.ancestro = codigos[0] + 1;
+            else
+                tmp.ancestro = codigos[0] + 2;
+            return tmp;
+        }
+
+        function crearObjetos3(z) {
+            var tmp = new Object();
+            tmp.codigo = codigos[1] + (z + 1);
+            tmp.nombre = ciudades[z];
+            tmp.ancestro = '00';
+            if (z <= 1)
+                tmp.ancestro = codigos[1] + 1;
+            else
+                tmp.ancestro = codigos[1] + 7;
+            return tmp;
+        }
+
+        function imprimeArray(arrayObj) {
+            var ele = document.createElement('div');
+            document.body.appendChild(ele);
+            ele.id = 'div1';
+            var title = document.createElement('p');
+            title.innerHTML = 'CODIGO#NOMBRE#ANCESTRO';
+            title.style.margin = '0.1em';
+            ele.appendChild(title);
+            var i = 0;
+            while (i < arrayObj.length) {
+                var tmp = arrayObj[i];
+                var p = document.createElement('p');
+                //console.log(tmp);
+                p.innerHTML = tmp.codigo + '#' + tmp.nombre + '#' + tmp.ancestro;
+                p.style.margin = '0.1em';
+                document.getElementById(ele.id).appendChild(p);
+                i++;
+            }
+        }
+        window.onload = iniciar();
+    </script>
+</body>
+
+</html>
