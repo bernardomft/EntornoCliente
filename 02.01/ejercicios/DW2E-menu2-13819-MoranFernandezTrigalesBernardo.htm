@@ -21,11 +21,23 @@
         function iniciar() {
             rellenaArray(arrayObj);
             imprimeArray(arrayObj);
-
+            crearMigas();
             crearMenu();
 
         }
 
+        function crearMigas() {
+            var ele = document.createElement('div');
+            ele.id = 'migas';
+            ele.style.visibility = 'hidden';
+            var p = document.createElement('p');
+            p.style.textAling = 'center';
+            p.innerHTML = 'home >'
+            p.id = 'migasP';
+            console.log(p);
+            document.body.appendChild(ele);
+            document.getElementById(ele.id).appendChild(p);
+        }
 
         function crearMenu() {
             var ele = document.createElement('div');
@@ -49,6 +61,21 @@
         }
 
         function menu() {
+            //gestion de el camino de migas
+            var i = 0;
+            var n;
+            console.log(this.id);
+            while (arrayObj[i].codigo != this.id) {
+
+
+                i++;
+            }
+            if (this.id == arrayObj[i].codigo)
+                n = arrayObj[i].nombre;
+            document.getElementById('migas').style.visibility = 'visible';
+            document.getElementById('migasP').innerHTML = document.getElementById('migasP').innerHTML + '>'+ n;
+
+            //
             var ele = document.getElementById("menu");
             while (ele.firstChild) {
                 ele.removeChild(ele.firstChild);
@@ -57,6 +84,7 @@
                 if (arrayObj[i].ancestro === this.id)
                     creaMenuCampo(ele, i);
             }
+
         }
 
         function rellenaArray(arrayObj) {
