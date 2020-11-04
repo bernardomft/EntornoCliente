@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC12</title>
+
+
+</head>
+
+<body>
+    <script>
+        var elementos = 0;
+        var i = 0;
+        function iniciar() {
+            crearCaja();
+        }
+
+        function crearCaja() {
+            elementos++;
+            ele = document.createElement('div');
+            ele.id = 'div' + (elementos);
+            ele.style.width = '60px';
+            ele.style.height = '60px';
+            ele.style.border = '1px solid #000000';
+            ele.style.backgroundColor = 'rgb(' + (Math.floor(Math.random() * (255))) +
+                ', ' + (Math.floor(Math.random() * (255))) +
+                ', ' + (Math.floor(Math.random() * (255))) +
+                ')';
+            ele.style.float = 'left';
+            var p = document.createElement('p');
+            p.style.textAlign = 'center';
+            p.style.margin = '0 auto'
+            p.innerHTML = 'c<b>0' + elementos + '</b>';
+            elementos++;
+            document.body.appendChild(ele);
+            ele.appendChild(p);
+            ele.addEventListener('onclick', caja(elementos));
+        }
+
+        function caja()
+        {
+            elementos++;
+            ele = document.createElement('div');
+            ele.id = 'div' + (elementos);
+            ele.style.width = '60px';
+            ele.style.height = '60px';
+            ele.style.border = '1px solid #000000';
+            ele.style.backgroundColor = 'rgb(' + (Math.floor(Math.random() * (255))) +
+                ', ' + (Math.floor(Math.random() * (255))) +
+                ', ' + (Math.floor(Math.random() * (255))) +
+                ')';
+            ele.style.float = 'left';
+            var p = document.createElement('p');
+            p.style.textAlign = 'center';
+            p.style.margin = '0 auto'
+            p.innerHTML = 'c<b>0' + elementos + '</b>';
+            elementos++;
+            document.body.appendChild(ele);
+            ele.appendChild(p);
+            ele.addEventListener('onclick', caja());
+            //No soy capaz de añadir el evento para que siga creando Cajas. 
+            //si añado un evento a esta misma función caja u a otra que haga lo mismo se crean infinitas cajas al regargar la página.
+        }
+        window.onload = iniciar();
+    </script>
+</body>
+
+</html>
