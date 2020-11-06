@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var n = 49;
+        var fechas = [];
+        var semana = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+        var meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE',
+            'NOVIEMBRE', 'DICIEMBRE'
+        ];
+
+
+        function iniciar() {
+            var ele = document.createElement('div');
+            ele.id = 'div1';
+            document.body.appendChild(ele);
+            calendarioLineal(ele);
+        }
+
+        function calendarioLineal(ele) {
+            for (var i = 0; i < meses.length; i++) {
+                var p = document.createElement('div');
+                p.innerHTML = "<p>" + meses[i] + "</p>"
+                p.style.margin = '0.5em';
+                p.style.width = '10%';
+                if (i != 0)
+                    p.style.clear = 'left';
+                p.style.float = 'left';
+                ele.appendChild(p);
+                generarFechas(ele, i);
+            }
+        }
+
+        function generarFechas(ele, i) {
+            var date = new Date(2020, i, 1); //primer dia del mes
+            var dSemana = date.getDay() + 6; //dia de la semana + 6
+            date.setDate(date.getDate() - dSemana)
+            console.log(date);
+            console.log(dSemana);
+            for (var j = 0; j < n; j++) {
+                crearCaja(date, ele, i);
+                date.setDate(date.getDate() + 1);
+            }
+        }
+
+        function crearCaja(date, ele, i) {
+            var caja = document.createElement('div');
+            caja.style.width = '20px';
+            if(i === date.getMonth())
+                caja.style.backgroundColor = 'yellow';
+            else
+                caja.style.backgroundColor = '#ffff75';
+            caja.style.border = '1px solid #000000';
+            caja.style.margin = '0.2em';
+            caja.style.float = 'left';
+            caja.id = date.getDate() + '_' + date.getUTCMonth();
+            var p1 = document.createElement('p');
+            p1.innerHTML = date.getDate();
+            p1.style.textAlign = 'center';
+            var p2 = document.createElement('p');
+            p2.innerHTML = semana[date.getDay()];
+            p2.style.textAlign = 'center';
+            if((i === date.getMonth() && (date.getDay() === 6 || date.getDay() === 0))){
+                p1.style.color = 'red';
+                p2.style.color = 'red';
+            }
+            caja.appendChild(p1);
+            caja.appendChild(p2);
+            ele.appendChild(caja);
+        }
+
+        function getDaysInMonthUTC(month, year) {
+            var date = new Date(Date.UTC(year, month, 1));
+            var days = [];
+            while (date.getUTCMonth() === month) {
+                days.push(new Date(date));
+                date.setUTCDate(date.getUTCDate() + 1);
+            }
+            return days;
+        }
+        window.onload = iniciar();
+    </script>
+</body>
+
+</html>
