@@ -17,50 +17,74 @@
         ];
 
 
-        function iniciar() {
-            var ele = document.createElement('div');
-            ele.id = 'div1';
-            document.body.appendChild(ele);
-            calendarioLineal(ele);
+        function iniciar()
+        {
+            var añoUno = 2019;
+            while(añoUno <= 2029)
+            {
+                calendario(añoUno);
+                añoUno++;
+            }
+            
         }
 
-        function calendarioLineal(ele) {
+        function calendario(año) {
+            var ele = document.createElement('div');
+            ele.id = 'div'+año;
+            ele.style.margin = '50px auto';
+            ele.style.width = '100%';
+            document.body.appendChild(ele);
+            var h1 = document.createElement('h1');
+            h1.innerHTML = 'Año: ' + año;
+            h1.style.clear = 'left';
+            h1.style.float = 'left';
+            ele.appendChild(h1);
+            calendarioLineal(ele, año);
+        }
+
+        function calendarioLineal(ele, año) {
             for (var i = 0; i < meses.length; i++) {
                 var p = document.createElement('div');
                 p.innerHTML = "<p>" + meses[i] + "</p>"
-                p.style.margin = '0.5em';
-                p.style.width = '10%';
-                if (i != 0)
+                p.style.margin = '0.2em';
+                p.style.width = '7%';
+                
                     p.style.clear = 'left';
                 p.style.float = 'left';
                 ele.appendChild(p);
-                generarFechas(ele, i);
+                generarFechas(ele, i,año);
             }
         }
 
-        function generarFechas(ele, i) {
-            var date = new Date(2020, i, 1); //primer dia del mes
+        function generarFechas(ele, i, año) {
+            var date = new Date(año, i, 1); //primer dia del mes
             var dSemana = date.getDay() + 6; //dia de la semana + 6
             date.setDate(date.getDate() - dSemana)
             console.log(date);
             console.log(dSemana);
             for (var j = 0; j < n; j++) {
-                crearCaja(date, ele, i);
+                crearCaja(date, ele, i, año);
                 date.setDate(date.getDate() + 1);
             }
         }
 
-        function crearCaja(date, ele, i) {
+        function crearCaja(date, ele, i, año) {
+            var hoy = new Date();
+            console.log(hoy);
             var caja = document.createElement('div');
-            caja.style.width = '20px';
-            if(i === date.getMonth())
+            caja.style.width = '15px';
+            if(date.getDate() === hoy.getDate() && date.getMonth() === hoy.getMonth() && date.getFullYear() === hoy.getFullYear())
+            {
+                caja.style.backgroundColor = 'blue';
+                caja.style.color = '#FFFFFF'
+            }
+            else if(i === date.getMonth())
                 caja.style.backgroundColor = 'yellow';
             else
                 caja.style.backgroundColor = '#ffff75';
-            caja.style.border = '1px solid #000000';
-            caja.style.margin = '0.2em';
+            caja.style.margin = '1px';
             caja.style.float = 'left';
-            caja.id = date.getDate() + '_' + date.getUTCMonth();
+            caja.id = date.getDate() + '_' + date.getUTCMonth()+date.getFullYear();
             var p1 = document.createElement('p');
             p1.innerHTML = date.getDate();
             p1.style.textAlign = 'center';
@@ -71,9 +95,18 @@
                 p1.style.color = 'red';
                 p2.style.color = 'red';
             }
+            
             caja.appendChild(p1);
             caja.appendChild(p2);
             ele.appendChild(caja);
+            //caja.addEventListener('click', rojo(i,date));
+            //intentar poner evento solo a los de el mes
+        }
+
+        function rojo(i,date)
+        {
+            if(date.getMonth() === i)
+                this.style.border = '0.1px solid red';
         }
 
         function getDaysInMonthUTC(month, year) {
