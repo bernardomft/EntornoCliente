@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        .diaMes:hover {
+            border: 0.1px solid red;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -15,22 +23,21 @@
         var meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE',
             'NOVIEMBRE', 'DICIEMBRE'
         ];
+        var arrayObj = [];
 
 
-        function iniciar()
-        {
+        function iniciar() {
             var añoUno = 2019;
-            while(añoUno <= 2029)
-            {
+            while (añoUno <= 2029) {
                 calendario(añoUno);
                 añoUno++;
             }
-            
+
         }
 
         function calendario(año) {
             var ele = document.createElement('div');
-            ele.id = 'div'+año;
+            ele.id = 'div' + año;
             ele.style.margin = '50px auto';
             ele.style.width = '100%';
             document.body.appendChild(ele);
@@ -48,11 +55,11 @@
                 p.innerHTML = "<p>" + meses[i] + "</p>"
                 p.style.margin = '0.2em';
                 p.style.width = '7%';
-                
-                    p.style.clear = 'left';
+
+                p.style.clear = 'left';
                 p.style.float = 'left';
                 ele.appendChild(p);
-                generarFechas(ele, i,año);
+                generarFechas(ele, i, año);
             }
         }
 
@@ -60,8 +67,6 @@
             var date = new Date(año, i, 1); //primer dia del mes
             var dSemana = date.getDay() + 6; //dia de la semana + 6
             date.setDate(date.getDate() - dSemana)
-            console.log(date);
-            console.log(dSemana);
             for (var j = 0; j < n; j++) {
                 crearCaja(date, ele, i, año);
                 date.setDate(date.getDate() + 1);
@@ -70,44 +75,70 @@
 
         function crearCaja(date, ele, i, año) {
             var hoy = new Date();
-            console.log(hoy);
             var caja = document.createElement('div');
             caja.style.width = '15px';
-            if(date.getDate() === hoy.getDate() && date.getMonth() === hoy.getMonth() && date.getFullYear() === hoy.getFullYear())
-            {
+            caja.id = date.getDate() + '_' + date.getUTCMonth() + date.getFullYear();
+            if (date.getDate() === hoy.getDate() && date.getMonth() === hoy.getMonth() && date.getFullYear() === hoy
+                .getFullYear()) {
                 caja.style.backgroundColor = 'blue';
                 caja.style.color = '#FFFFFF'
-            }
-            else if(i === date.getMonth())
+            } else if (i === date.getMonth()) {
                 caja.style.backgroundColor = 'yellow';
-            else
+                caja.className = 'diaMes';
+                caja.addEventListener("click", function mensaje() {
+                    var objTmp = new Object();
+                    objTmp.id = this.id;
+                    if (estaEnArray(objTmp)) {
+                        var tmp = prompt(arrayObj[dondeArray(objTmp)].txt);
+                        arrayObj[dondeArray(objTmp)].txt += ' ' + tmp;
+                    } 
+                    else {
+                        var tmp = prompt('Introduce tu contraseña');
+                        objTmp.txt = tmp;
+                        arrayObj.push(objTmp);
+                    }
+                    this.style.border = '0.1px solid #000000';
+                });
+            } else
                 caja.style.backgroundColor = '#ffff75';
             caja.style.margin = '1px';
             caja.style.float = 'left';
-            caja.id = date.getDate() + '_' + date.getUTCMonth()+date.getFullYear();
+
             var p1 = document.createElement('p');
             p1.innerHTML = date.getDate();
             p1.style.textAlign = 'center';
             var p2 = document.createElement('p');
             p2.innerHTML = semana[date.getDay()];
             p2.style.textAlign = 'center';
-            if((i === date.getMonth() && (date.getDay() === 6 || date.getDay() === 0))){
+            if ((i === date.getMonth() && (date.getDay() === 6 || date.getDay() === 0))) {
                 p1.style.color = 'red';
                 p2.style.color = 'red';
             }
-            
+
             caja.appendChild(p1);
             caja.appendChild(p2);
             ele.appendChild(caja);
-            //caja.addEventListener('click', rojo(i,date));
-            //intentar poner evento solo a los de el mes
         }
 
-        function rojo(i,date)
-        {
-            if(date.getMonth() === i)
-                this.style.border = '0.1px solid red';
+        function estaEnArray(objTmp) {
+            for (var i = 0; i < arrayObj.length; i++) {
+                if (arrayObj[i].id=== objTmp.id)
+                    return true;
+            }
+            return false;
         }
+
+        function dondeArray(objTmp) {
+            for (var i = 0; i < arrayObj.length; i++) {
+                if (arrayObj[i].id=== objTmp.id)
+                    return i;
+            }
+        }
+
+        /* function mensaje()
+         {
+             prompt('Introduce tu contraseña: ');
+         }*/
 
         function getDaysInMonthUTC(month, year) {
             var date = new Date(Date.UTC(year, month, 1));
