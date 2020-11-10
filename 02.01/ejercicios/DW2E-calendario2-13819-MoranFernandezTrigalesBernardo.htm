@@ -89,7 +89,7 @@
                     var objTmp = new Object();
                     objTmp.id = this.id;
                     if (estaEnArray(objTmp)) {
-                        var tmp = prompt(arrayObj[dondeArray(objTmp)].txt);
+                        var tmp = prompt('',arrayObj[dondeArray(objTmp)].txt);
                         arrayObj[dondeArray(objTmp)].txt += ' ' + tmp;
                     } 
                     else {
