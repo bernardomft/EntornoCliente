@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>expRegulares2</title>
+
+
+<script>
+
+function principal(){
+
+	limpiar();
+	cargarFichero(document.getElementById('fileFichero').files[0]);
+	document.getElementById('fileFichero').addEventListener('change',leerArchivo,false);	
+	document.getElementById('botonRun').addEventListener('click',function comprobarExp(){
+        generarSalida();
+    });
+}
+
+function generarSalida(){
+    var ele = document.createElement('div');
+    ele.id = 'divSalida';
+    if(document.getElementById('textoEntrada').innerHTML === '')
+    {
+        ele.innerHTML = 'No has introducido un archivo';
+    }
+    else{
+        ele.innerHTML = 'Prueba: busca ( el primero';
+        var regExp = /\(/;
+        var tmp = document.getElementById('textoEntrada').innerHTML;
+        var res = tmp.match(regExp);
+        if(res != null)
+        {
+            ele.innerHTML = ele.innerHTML + '<br>   Se ha encontrado el carcater ( en la POSICIÓN: ' + res.index;
+        }else{
+            ele.innerHTML = ele.innerHTML + '<br>   No se ha encontrado el caracter (';
+        }
+        regExp = /\(\)/g;
+        res = tmp.match(regExp);
+        ele.innerHTML = ele.innerHTML + '<br> Prueba: busca todos los ()';
+        if(res != null)
+        {
+            ele.innerHTML = ele.innerHTML + '<br>   Se han encontrado los caracteres () ' + res.length + ' veces';;
+        }else{
+            ele.innerHTML = ele.innerHTML + '<br>   No se ha encontrado los caracteres ()';
+        }
+        regExp = /\(|\)/g;
+        res = tmp.match(regExp);
+        ele.innerHTML = ele.innerHTML + '<br> Prueba: busca todos los ( o todos los )';
+        if(res != null)
+        {
+            ele.innerHTML = ele.innerHTML + '<br>   Se han encontrado ( o ) ' + res.length + ' veces';;
+        }else{
+            ele.innerHTML = ele.innerHTML + '<br>   No se ha encontrado los caracteres ( o )';
+        }
+        regExp = /\s/g;
+        res = tmp.match(regExp);
+        ele.innerHTML = ele.innerHTML + '<br> Prueba: busca todos los blancos';
+        if(res != null)
+        {
+            ele.innerHTML = ele.innerHTML + '<br>   Se han encontrado espacios en blanco ' + res.length + ' veces';;
+        }else{
+            ele.innerHTML = ele.innerHTML + '<br>   No se ha encontrado espacios en blanco';
+        }
+        regExp = /\.([^.]?)$/;
+        res = tmp.match(regExp);
+        ele.innerHTML = ele.innerHTML + '<br> Prueba: último espacio en blanco';
+        if(res != null)
+        {
+            ele.innerHTML = ele.innerHTML + '<br>   Se han encontrado espacios en blanco ' + res.length + ' veces';;
+        }else{
+            ele.innerHTML = ele.innerHTML + '<br>   No se ha encontrado espacios en blanco';
+        }
+        console.log(res);
+    }
+
+    document.body.appendChild(ele);
+}
+
+
+function limpiar(){
+	document.getElementById('textoSalida').value='';
+}
+
+function cargarFichero(archivo){
+	if (!archivo) {	return;	}
+	var lector = new FileReader(); 	
+	lector.onload = function(e) { 		
+	var contenido = e.target.result;
+	mostrarContenido(contenido);
+	};
+	lector.readAsText(archivo);
+}
+
+function mostrarContenido(contenido) {
+	// usar el dom para mostrar el contenido
+	//console.log('ccc:',contenido);
+	var elemento = document.getElementById('textoEntrada');
+	elemento.value=contenido; // refresca en pantalla
+	elemento.innerHTML=contenido; // necesario para el dom
+}
+
+function leerArchivo(e) {
+	cargarFichero(e.target.files[0]);
+}
+
+window.onload=principal;
+</script>
+<style>
+	#textoTitulo{
+		margin-top:4px; 		
+	}
+	textarea,#textoTitulo{
+		width:614px; 
+	}
+	select,button{
+		position: relative;
+    	top: -2px;
+	}
+	#botonRun{
+		position: relative;
+		top: 0px;
+	}
+</style>
+
+</head>
+ 
+<body>
+
+<h3>Archivo de entrada</h3>
+<!-- carga del archivo -->
+<input type="file" id="fileFichero" />
+
+<h3>Entrada</h3>
+<textarea id="textoEntrada"></textarea>
+
+<h3>Carga el texto y dale a match para que empiece el programa</h3>
+<button id="botonRun">match</button>
+
+<h3>Salida</h3>
+<textarea id="textoSalida"></textarea>
+
+
+</body>
+</html>
