@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caracola</title>
+</head>
+<body>
+    <script>
+        //Necesito la sucesion de Fibonacci
+        var arrayColores = new Array();
+        var arrayFib = [1597, 987, 610, 377, 233, 144, 89, 55, 34, 21, 13, 8, 5, 3, 2, 1, 1]; //length = 17. OJO que es impar
+        var i = 0;
+        var index = 0;
+    
+        var timer = setInterval(crearCajas(i), '1000');
+        
+        function crearCajas(i)
+        {
+            var ele = document.createElement('div');
+            //Ancho y alto de los elementos
+            ele.style.height = arrayFib[i] + 'px';
+            ele.style.width = arrayFib[i + 1] + 'px';
+            //Borde y color de fondo
+            ele.style.border = '1px solid #000000';
+            ele.style.backgroundColor = controlColor();
+            //Posicionamiento
+            ele.style.position = 'absolute';
+            ele.style.zIndex = index.toString();
+            index += 1;
+            ele.style.top = '0';
+            ele.style.left = '0';
+            //Poner los elementdos en el dom
+            document.body.appendChild(ele);
+
+            //Incremento de la variable de control i
+            console.log(i);
+            i += 2;
+        }
+
+        function colorRepetido(colores, comprobar)
+        {
+            for(var i = 0; i < colores.length;i++)
+            {
+                if(colores[i] === comprobar)
+                    return true;
+            }
+            return false;
+        }
+        function crearColor()
+        {
+            var letras = ["a","b","c","d","e","f","0","1","2","3","4","5","6","7","8","9"];
+            var res = '#';
+            for(var i = 0; i < 6; i++)
+	            res = res + letras[(Math.random()*15).toFixed(0)];
+            return res;
+        }
+
+        function controlColor()
+        {
+            var tmp = crearColor();
+            if(arrayColores.length === 0)
+                arrayColores.push(tmp);
+            else{
+                while(colorRepetido(arrayColores,tmp))
+                    tmp = crearColor();
+                arrayColores.push(tmp);   
+            }
+            return tmp;
+        }
+    </script>
+</body>
+</html>
