@@ -1,0 +1,38 @@
+nombre: DW2E-PC13-expediente-ApellidoNombre.htm
+tiempo: 70 minutos
+acceso a internet: si
+
+Criterios de evaluación ==
+- El nombre del fichero es el indicado arriba
+- Solo se evaluan los ficheros con el nombre totalmente correcto sino es un cero.
+- Subir a la carpeta de clase, se pueden hacer multiples entregas, se evalua la ultima dentro del tiempo. Sino se sube nada es un cero. Si solo se sube fuera de tiempo es un cero.
+- Leer este enunciado detenidamente. Durante el examen no hay preguntas.
+
+Apartados ==
+
+La página se desarrollará exclusivamente en javascript. Se desarrollara en un solo archivo. De lo contrario la nota será un cero.
+
+var cadenaEntrada='antonio;2018-10-01#juan;2018-10-02#maria;2018-10-03#ana;2018-11-01#manuel;2018-11-02#manuela;2018-11-03#marta;2018-12-01#alfonso;2018-12-02#alfonsina;2018-12-03#maria jose;2018-12-04#ana maria;2018-00-02';
+
+1) Leer cadenaEntrada y almacenar los datos en un array. Visualizar usando console.log() en el formato indicado [ver captura2]
+
+2) Al cargar la página deben mostrar en el formato indicado un alert por cada fecha inválida leida de la cadenaEntrada [ver captura3]
+
+3) Maquetar con div anidados y presentar en el formato indicado para la primera columna [ver captura1]
+
+4) Maquetar con div anidados presentar el formato indicado para todas las cajas  [ver captura1]
+
+5) Imprimir el texto de todas las cajas leido desde el array en el formato indicado [ver captura1]
+
+6) Usar los valores al azar R:200-255,G:250-255,B:200-255 para cada color [ver captura1]
+
+7) Buscar el criterio y ordenar columna1 [captura1]
+
+8) Buscar el criterio y ordenar columna2 [captura1]
+
+9) Buscar el criterio y ordenar columna3 [captura1]
+
+Puntos:
+- 1 al 5 es 1 puntos cada
+- resto es 0,5 puntos cada
+- total de puntos: 7

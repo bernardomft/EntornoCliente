@@ -20,7 +20,7 @@
             var ele = document.createElement('div');
             //Ancho y alto de los elementos
             ele.style.height = arrayFib[i] + 'px';
-            ele.style.width = arrayFib[i + 1] + 'px';
+            ele.style.width = arrayFib[i] + 'px';
             //Borde y color de fondo
             ele.style.border = '1px solid #000000';
             ele.style.backgroundColor = controlColor();
@@ -28,14 +28,29 @@
             ele.style.position = 'absolute';
             ele.style.zIndex = index.toString();
             index += 1;
-            ele.style.top = '0';
-            ele.style.left = '0';
+            if(i == 0){
+                ele.style.top = '0';
+                ele.style.left = '0';
+            }
+            else if(i == 1){
+                ele.style.top = '0';
+                ele.style.left = arrayFib[i-1] + 'px';
+            }
+            else if(i == 2)
+            {
+                ele.style.top = arrayFib[i-1] + 'px';
+                ele.style.left = (arrayFib[i-2] + arrayFib[i-1] -  arrayFib[i]) + 'px';
+            }
+            else if(i == 3){
+                ele.style.top = (arrayFib[i-2]  + arrayFib[i+1])+ 'px';
+                ele.style.left = (arrayFib[i-3]) + 'px';
+            }
             //Poner los elementdos en el dom
             document.body.appendChild(ele);
 
             //Incremento de la variable de control i
             console.log(i);
-            i += 2;
+            i += 1;
         }
 
         function colorRepetido(colores, comprobar)

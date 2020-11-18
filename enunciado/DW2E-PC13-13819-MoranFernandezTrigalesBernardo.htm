@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var cadenaEntrada =
+            'antonio;2018-10-01#juan;2018-10-02#maria;2018-10-03#ana;2018-11-01#manuel;2018-11-02#manuela;2018-11-03#marta;2018-12-01#alfonso;2018-12-02#alfonsina;2018-12-03#maria jose;2018-12-04#ana maria;2018-00-02';
+        var arrayObj = [];
+        var arrayColores = [];
+        function iniciar() {
+            formatearEntrada();
+        }
+
+        function formatearEntrada()
+        {
+            var tmp1 = cadenaEntrada.split('#');
+            for(var i = 0; i < tmp1.length;i++)
+            {
+                var tmp2 = tmp1[i].split(';');
+                crearObj(tmp2);
+            }
+            
+            console.log(arrayObj);
+
+            //Ordenar el array por orden alfabetico y mostrarlo
+            arrayObj.sort(function (a,b){
+                return a.nombre.localeCompare(b.nombre);
+            })
+            //console.log(arrayObj);
+            crearColumna("1");
+
+            arrayObj.sort(function (a,b){
+                return a.fecha.getDate() - b.fecha.getDate();
+            })
+
+            crearColumna("2");
+        }
+
+        function crearColumna(n)
+        {
+            var ele = document.createElement('div');
+            ele.id = 'columna' + n;
+            //estilos de el div de la columna;
+            ele.style.width = '150px';
+            ele.style.border = '1px solid #000000';
+            ele.style.float = 'left';
+            ele.style.marginLeft = '2em';
+            ele.style.backgroundColor = controlColor();
+            for(var i = 0; i < arrayObj.length; i++)
+            {
+                var tmp = document.createElement('div');
+                //estilos de tmp
+                tmp.style.width = '75%';
+                //tmp.style.height = '50px';
+                tmp.style.margin = '0.5em auto';
+                tmp.style.textAlign = 'center';
+                tmp.style.border = '1px solid #000000';
+                tmp.style.backgroundColor = crearColor();
+                //
+                var p1 = document.createElement('p');
+                p1.innerHTML = arrayObj[i].nombre;
+                p1.style.fontWeight = 'bold';
+                p1.style.margin = '0';
+                //
+                var p2 = document.createElement('p');
+                p2.innerHTML = fechaSalida(arrayObj[i].fecha);
+                p2.style.fontWeight = 'bold';
+                p2.style.margin = '0';
+                //
+                tmp.appendChild(p1);
+                tmp.appendChild(p2);
+                ele.appendChild(tmp);
+            }
+
+            //Añadir la columna al body
+            document.body.appendChild(ele);
+        }
+
+        function crearObj(arrayTmp)
+        {
+            var tmp = new Object();
+            tmp.nombre = arrayTmp[0];
+            var tiempo = arrayTmp[1].split('-');
+            tmp.fecha = new Date(tiempo[0], tiempo[1] - 1, tiempo[2]);
+            if (fechaValida(tiempo))
+                arrayObj.push(tmp);
+            else
+                alert("fecha invalida: " + arrayTmp[1]);
+        }
+
+        function fechaValida(tiempo)
+        {
+            if(!(tiempo[1] >= 1 && tiempo[1] <= 12 ))
+                return false;
+            else if(!(tiempo[2] >= 1 && tiempo[2] <= 31))
+                return false;
+            else 
+                return true;
+        }
+
+        function fechaSalida(fecha)
+        {
+            var str = fecha.getDate() + '/' + fecha.getMonth() + '/' + fecha.getYear();
+            return str;
+        }
+
+        function colorRepetido(colores, comprobar)
+        {
+            for(var i = 0; i < colores.length;i++)
+            {
+                if(colores[i] === comprobar)
+                    return true;
+            }
+            return false;
+        }
+        function crearColor()
+        {
+            var r = Math.floor(Math.random() * (255-200)) + 200;
+            var g = Math.floor(Math.random() * (255-250)) + 250;
+            var b = Math.floor(Math.random() * (255-200)) + 200;
+            res = 'rgb(' + r + ',' + g + ',' + b + ')';
+            return res;
+        }
+
+        function controlColor()
+        {
+            var tmp = crearColor();
+            if(arrayColores.length === 0)
+                arrayColores.push(tmp);
+            else{
+                while(colorRepetido(arrayColores,tmp))
+                    tmp = crearColor();
+                arrayColores.push(tmp);   
+            }
+            return tmp;
+        }
+
+        window.onload = iniciar();
+    </script>
+</body>
+
+</html>
