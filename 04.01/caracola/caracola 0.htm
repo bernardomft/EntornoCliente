@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>caracola</title>
+
+<script>
+
+var intervalo;
+var z,h,w,cid,nodo;
+
+function iniciar(){
+	cid=0; // contador de nodos
+	nodo=document.body; // nodo ancestro
+	z=[600,300,150,75,42,21,12,7]; // 
+	h=z[0],w=h; // alto y ancho
+	intervalo=setInterval(dibujaCaja,500); // intervalo
+}
+function dibujaCaja(){
+	var c;
+	if (cid>1){
+		c='float:right';
+	}else{
+		c='float:left';
+	}
+
+	if (cid>2){
+		c+=';transform:rotate(180deg)';
+	}
+	//c+=';border-radius:25px;transition:background-color 1s;';
+	// otra forma de añadir estilos
+	nodo=unaCaja(nodo,h,w,c);
+	cid++;	
+	if (cid%2==0){
+		h=z[cid];
+	}else{
+		w=z[cid];
+	}
+	if (cid==z.length){
+		clearInterval(intervalo)
+		//var k=document.getElementsByTagName('div');
+		//for (x of k){x.style.backgroundColor='white';}
+	}
+}
+function unaCaja(p,h,w,c){
+	// p : ancestro
+	// h : alto
+	// w : ancho
+	// f : float
+	var b=1; // pixel del borde
+	var ele=document.createElement('div'); // crear nodo div
+	p.appendChild(ele); 	
+	ele.id='C'+cid;
+	ele.setAttribute("style",c); // primera el resto se añade	
+	ele.style.width=w+'px';
+	ele.style.height=h+'px';
+	ele.style.border=b+'px solid black';
+	ele.style.margin='-'+b+'px'; // overlapping borders	!!
+	// fuente: https://stackoverflow.com/questions/12133791/css-overlapping-borders
+	ponColor(ele);
+	return ele;		
+}
+function ponColor(ele){
+	// pone un color al azar en el nodo
+	var r=aleatorio(0,255).toString(16).padStart(2,'0'); // hex 00
+	var g=aleatorio(0,255).toString(16).padStart(2,'0');
+	var b=aleatorio(0,255).toString(16).padStart(2,'0');
+	console.log(r,g,b);
+	ele.style.backgroundColor='#'+r+g+b; // color en css
+	//console.log(ele);
+}
+function aleatorio(a,b) {
+	var x=Math.round(Math.random()*(b-a)+parseInt(a));
+	return x;
+}
+window.onload = iniciar; // sin parentesis , al final del head
+</script>
+
+</head>
+ 
+<body>
+</body>
+
+</html>
