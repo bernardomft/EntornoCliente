@@ -6,21 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>videos</title>
     <style>
-        .tarjeta {
+
+        .filtros{
             border: 1px solid #000000;
-            padding: 1em;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin: 2em auto;
+            width: 90%;
         }
+
+        .filtros p{
+            flex-basis: 18%;
+            cursor: pointer;
+        }
+
 
         .imagen {
             background-size: contain;
             background-repeat: no-repeat;
             width: 180px;
-            height: 180px;
+            height: 100px;
         }
 
-        .flex-contenedor{
-            display: flex;
+        .contenedor {
+            border: 1px solid #000000;
+            max-height: 25em;
+            width: 90%;
+            margin: 0 auto;
+            
         }
+
+        #flex{
+            display: flex;
+            flex-direction: row;
+            white-space:nowrap;
+            overflow: scroll;
+        }
+
+        p {
+            text-align: center;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 
@@ -30,6 +58,7 @@
         var arrayId = ['gOpWZ95Nd8k', '4q4o-BIHJZA', 'm2Japz0oJek', '4MeHm43BQQo', 'fFPfHIOlKPM', 'ryEcAT0IfTI',
             'wWWlmfnfLAU', 'ywwfV2VqBNg', 'z5VyCp_1YnA', 'IK01V1oED9w'
         ];
+        var arrayFiltros = ['TODOS', 'FILTRO: 1-5', 'OX TITULO', 'OX SUBIDA', 'OX DURACION'];
 
         var arrayObj = [];
         //Clase pelicula
@@ -94,33 +123,81 @@
                 return this._imagen;
             }
 
-            generarHTML() {
+            generarHTML(i) {
                 //div.tarjeta (div principal)
                 var ele = document.createElement('div');
-                ele.id = 'pelicula_' + this.div;
-                ele.className = 'tarjeta';
+                ele.id = 'pelicula_' + this.vid;
                 //div con imagen
                 var imagen = document.createElement('div');
-                ele.className = 'imagen';
-                ele.style.backgroundImage = 'url(' + this.imagen + ')';
-                ele.innerHTML = '<p>' + this.titulo + '</p>' + '<p>' + this.vid + '</p>' + '<p>' + this.fechaSubida + '</p>'
-                                + '<p>' + this.visitas + '</p>';
+                imagen.className = 'imagen';
+                imagen.style.backgroundImage = 'url(' + this.imagen + ')';
+                var p = document.createElement('p');
+                p.innerHTML = (i + 1) + ':' + this.titulo + '<br>' + this.vid + '<br>' + this.fechaSubida +
+                    '<br>' + this.visitas;
                 ele.appendChild(imagen);
+                ele.appendChild(p);
+                //ele = document.getElementById('flex').insertBefore(ele,document.getElementById('paginador'));
                 document.getElementById('flex').appendChild(ele);
             }
 
         }
 
-        function iniciar(){
-            for(var i = 0; i < arrayId.length; i++){
+        function iniciar() {
+            crearEstructura();
+            for (var i = 0; i < arrayId.length; i++) {
                 arrayObj.push(new Pelicula(arrayId[i]));
-                arrayObj[i].generarHTML();
+                arrayObj[i].generarHTML(i);
             }
-               
             console.log(arrayObj);
         }
 
+        function crearEstructura(){
+            //Contenedor filtros
+            var cont = document.createElement('div');
+            cont.className = 'filtros';
+            for(var i = 0; i < arrayFiltros.length; i++){
+                p = document.createElement('p');
+                p.innerHTML = arrayFiltros[i];
+                p.style.border = '1px solid #000000';
+                cont.appendChild(p);
+                p.addEventListener('click',ordenarArray);
+            }
+            document.body.appendChild(cont);
+            //Contenedor películas
+            var ele = document.createElement('div');
+            ele.className='contenedor';
+            ele.id = 'contenedor-principal';
+            var flex = document.createElement('div');
+            flex.id = 'flex';
+            ele.appendChild(flex);
+            document.body.appendChild(ele);
+        }
 
+        function ordenarArray()
+        {
+            var c = this.innerHTML.charAt(3);
+            if(c === 'T')
+                ordenaTitulo();
+            //console.log(c);
+        }
+
+        function ordenaTitulo(){
+            arrayObj.sort(function (a,b){
+                return a.titulo > b.titulo;
+            });
+            console.log(arrayObj);
+            eliminarVideos();
+        }
+
+        function eliminarVideos(){
+            var ele = document.getElementById('flex');
+            while(ele.firstChild){
+                ele.removeChild.firstChild;
+            }
+            for (var i = 0; i < arrayId.length; i++) {
+                arrayObj[i].generarHTML(i);
+            }
+        }
         function crearDuracion() {
             var n1 = Math.floor(Math.random() * (3));
             var n2 = Math.floor(Math.random() * (60 - 1)) + 1;
@@ -148,7 +225,6 @@
         window.onload = iniciar;
     </script>
 </body>
-<div class="flex-contenedor" id="flex">
 
-</div>
+
 </html>
