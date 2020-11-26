@@ -106,6 +106,10 @@
             overflow: scroll;
         }
 
+        .tarjeta{
+            background-color: #ffeeee;
+            margin: auto 0.5em;
+        }
         p {
             text-align: center;
             font-weight: bold;
@@ -188,6 +192,7 @@
             generarHTML(i) {
                 //div.tarjeta (div principal)
                 var ele = document.createElement('div');
+                ele.className = 'tarjeta';
                 ele.id = 'pelicula_' + this.vid;
                 ele.setAttribute('visitas', '0');
                 ele.addEventListener('click', abreModal);
