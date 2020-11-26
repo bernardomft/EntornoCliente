@@ -3,20 +3,70 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>videos</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css">
     <style>
-        .filtros {
-            border: 1px solid #000000;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            margin: 2em auto;
-            width: 90%;
+        :root {
+            --t1: opacity 400ms ease-in;
+            --t2: 1px 1px 3px #000;
         }
 
-        .filtros p {
-            flex-basis: 18%;
+        .modalDialogo {
+            position: fixed;
+            font-family: Arial, Helvetica, sans-serif;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(100, 100, 100, 0.8);
+            z-index: 99999;
+            opacity: 0;
+            -webkit-transition: var(--t1);
+            -moz-transition: var(--t1);
+            transition: var(--t1);
+            /*pointer-events: none;*/
+        }
+
+        /* ventana central modal */
+        .modalDialogo>div {
+            width: 400px;
+            position: relative;
+            margin: 10% auto;
+            padding: 5px 20px 13px 20px;
+            border-radius: 10px;
+            background: #fff;
+            background: -moz-linear-gradient(#fff, #999);
+            background: -webkit-linear-gradient(#fff, #999);
+            background: -o-linear-gradient(#fff, #999);
+        }
+
+        /* boton de cerrar */
+        .cerrar {
+            width: 24px;
+            text-align: center;
+            line-height: 25px;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: bold;
+            position: absolute;
+            right: -12px;
+            top: -10px;
+            -webkit-border-radius: 12px;
+            -moz-border-radius: 12px;
+            border-radius: 12px;
+            background: #606061;
+            -moz-box-shadow: var(--t2);
+            -webkit-box-shadow: var(--t2);
+            box-shadow: var(--t2);
+        }
+
+        .cerrar:hover {
+            background: #00d9ff;
+        }
+
+        #openModal {
+            display: none;
             cursor: pointer;
         }
 
@@ -29,11 +79,24 @@
         }
 
         .contenedor {
-            border: 1px solid #000000;
+            border: 1.5px solid #dbc9c9;
             max-height: 25em;
             width: 90%;
-            margin: 0 auto;
+            margin: 1.2em auto;
+            padding: 0.5em;
+        }
 
+        .contenedor-menu>* {
+            background-color: #e6e6e6;
+            color: #262f2f;
+        }
+
+        .primero {
+            background-color: #4caf50;
+        }
+
+        .segundo {
+            background-color: #ffd699;
         }
 
         #flex {
@@ -51,12 +114,13 @@
 </head>
 
 <body>
+
     <script>
         //Array con id de videos de Youtube
         var arrayId = ['gOpWZ95Nd8k', '4q4o-BIHJZA', 'm2Japz0oJek', '4MeHm43BQQo', 'fFPfHIOlKPM', 'ryEcAT0IfTI',
             'wWWlmfnfLAU', 'ywwfV2VqBNg', 'z5VyCp_1YnA', 'IK01V1oED9w'
         ];
-        var arrayFiltros = ['TODOS', 'FILTRO: 1-5', 'OX TITULO', 'OX SUBIDA', 'OX VISITAS','OX DURACION'];
+        var arrayFiltros = ['TODOS', 'FILTRO: 1-5', 'OX TITULO', 'OX SUBIDA', 'OX VISITAS', 'OX DURACION'];
 
         var arrayObj = [];
         //Clase pelicula
@@ -125,6 +189,8 @@
                 //div.tarjeta (div principal)
                 var ele = document.createElement('div');
                 ele.id = 'pelicula_' + this.vid;
+                ele.setAttribute('visitas', '0');
+                ele.addEventListener('click', abreModal);
                 //div con imagen
                 var imagen = document.createElement('div');
                 imagen.className = 'imagen';
@@ -140,6 +206,24 @@
 
         }
 
+        function abreModal() {
+            var n = parseInt(document.getElementById(this.id).getAttribute('visitas')) + 1;
+            this.setAttribute('visitas', n.toString());
+            var ele = document.getElementById("openModal");
+            ele.style.display = "inline";
+            ele.style.opacity = 1;
+            var ele = document.getElementById("video");
+            ele.src = 'http://www.youtube.com/embed/'+this.id.substring(9,this.id.length)+'?autoplay=1&controls=2&allowFullScreen=1';
+        }
+
+        function cierraModal() {
+            var ele = document.getElementById("openModal");
+            ele.style.display = "none";
+            ele.style.opacity = 0;
+            var ele = document.getElementById("video");
+            ele.src = '';
+        }
+
         function iniciar() {
             crearEstructura();
             for (var i = 0; i < arrayId.length; i++) {
@@ -152,13 +236,33 @@
         function crearEstructura() {
             //Contenedor filtros
             var cont = document.createElement('div');
-            cont.className = 'filtros';
+            cont.id = 'contenedor-filtros'
+            cont.className = 'pure-menu pure-menu-horizontal contenedor contenedor-menu';
+            var list = document.createElement('ul');
+            list.className = 'pure-menu-list';
             for (var i = 0; i < arrayFiltros.length; i++) {
-                p = document.createElement('p');
-                p.innerHTML = arrayFiltros[i];
-                p.style.border = '1px solid #000000';
-                cont.appendChild(p);
-                p.addEventListener('click', ordenarArray);
+                if (i === 0) {
+                    var heading = document.createElement('a');
+                    heading.setAttribute('href', '#');
+                    heading.className = 'pure-menu-heading pure-menu-link primero';
+                    heading.innerHTML = arrayFiltros[i];
+                    cont.appendChild(heading);
+                    cont.appendChild(list);
+                } else {
+                    var item = document.createElement('li');
+                    item.className = 'pure-menu-item';
+                    var ele = document.createElement('a');
+                    ele.setAttribute('href', '#');
+                    if (i === 1)
+                        ele.className = 'pure-menu-link segundo';
+                    else
+                        ele.className = 'pure-menu-link';
+                    ele.innerHTML = arrayFiltros[i];
+                    ele.addEventListener('click', ordenarArray);
+                    item.appendChild(ele);
+                    list.appendChild(item);
+                }
+
             }
             document.body.appendChild(cont);
             //Contenedor películas
@@ -173,9 +277,9 @@
 
         function ordenarArray() {
             var c = this.innerHTML.charAt(3);
-            if(this.innerHTML.charAt(0) === 'T')
+            if (this.innerHTML.charAt(0) === 'T')
                 eliminarVideos();
-            else if(c === 'T' && this.innerHTML.charAt(2) === 'L')
+            else if (c === 'T' && this.innerHTML.charAt(2) === 'L')
                 eliminarVideos2();
             else if (c === 'T')
                 ordenaTitulo();
@@ -183,15 +287,15 @@
                 ordenaSubida();
             else if (c === 'V')
                 ordenaVisitas();
-            else if(c === 'D')
+            else if (c === 'D')
                 ordenaDuracion();
-            
+
             //console.log(c);
         }
 
         function ordenaDuracion() {
             arrayObj.sort(function (a, b) {
-                var s1, s2, s3,t1, t2, t3;
+                var s1, s2, s3, t1, t2, t3;
                 var j = 0,
                     z = 0;
                 for (var i = 0; i < a.duracion.length; i++) {
@@ -201,11 +305,11 @@
                         j++;
                     } else if (a.duracion.charAt(i) === '/' && j === 1) {
                         s2 = a.duracion.substring(z + 1, i);
-                        s3 = a.duracion.substring(i+1, a.duracion.length)
+                        s3 = a.duracion.substring(i + 1, a.duracion.length)
                         j++;
-                    } 
+                    }
                 }
-                j = 0; 
+                j = 0;
                 z = 0;
                 for (var i = 0; i < b.duracion.length; i++) {
                     if (b.duracion.charAt(i) === '/' && j === 0) {
@@ -214,24 +318,24 @@
                         j++;
                     } else if (b.duracion.charAt(i) === '/' && j === 1) {
                         t2 = b.duracion.substring(z + 1, i);
-                        t3 = b.duracion.substring(i+1, b.duracion.length)
+                        t3 = b.duracion.substring(i + 1, b.duracion.length)
                         j++;
-                    } 
+                    }
                 }
-                if(s1 > t1)
+                if (s1 > t1)
                     return 1;
-                else if(s1 < t1)
+                else if (s1 < t1)
                     return -1;
-                else{
-                    if(s2 > t2)
+                else {
+                    if (s2 > t2)
                         return 1
-                    else if(s2 < t1)
+                    else if (s2 < t1)
                         return -1;
-                    else{
-                        if(s3>t3)
+                    else {
+                        if (s3 > t3)
                             return 1;
-                        else if(s3 < t3)
-                            return-1;
+                        else if (s3 < t3)
+                            return -1;
                         else
                             return 0;
                     }
@@ -262,12 +366,12 @@
                         j++;
                     } else if (a.fechaSubida.charAt(i) === '/' && j === 1) {
                         s2 = a.fechaSubida.substring(z + 1, i);
-                        s3 = a.fechaSubida.substring(i+1, a.fechaSubida.length)
+                        s3 = a.fechaSubida.substring(i + 1, a.fechaSubida.length)
                         j++;
-                    } 
+                    }
                 }
                 var f1 = new Date(s3 + '-' + s2 + '-' + s1);
-                j = 0; 
+                j = 0;
                 z = 0;
                 for (var i = 0; i < b.fechaSubida.length; i++) {
                     if (b.fechaSubida.charAt(i) === '/' && j === 0) {
@@ -276,9 +380,9 @@
                         j++;
                     } else if (b.fechaSubida.charAt(i) === '/' && j === 1) {
                         s2 = b.fechaSubida.substring(z + 1, i);
-                        s3 = b.fechaSubida.substring(i+1, b.fechaSubida.length)
+                        s3 = b.fechaSubida.substring(i + 1, b.fechaSubida.length)
                         j++;
-                    } 
+                    }
                 }
                 var f2 = new Date(s3 + '-' + s2 + '-' + s1);
                 return f1 - f2;
@@ -345,6 +449,14 @@
 
         window.onload = iniciar;
     </script>
+    <div id="openModal" class="modalDialogo">
+        <div>
+            <div title="cerrar" onclick="cierraModal()" class="cerrar">X</div>
+            <div id="hola">
+                <iframe id='video' src='' width='400' height='300'></iframe>
+            </div>
+        </div>
+    </div>
 </body>
 
 
