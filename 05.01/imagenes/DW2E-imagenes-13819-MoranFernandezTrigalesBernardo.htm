@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>IMAGENES</title>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	#contenedor{
+		width: 95%;
+		margin: 0 auto;
+	}
+</style>
+<script>
+	var arrayImg = [
+		"LmpwZw (1)",
+		"LmpwZw (2)",
+		"LmpwZw (3)",
+		"LmpwZw (4)",
+		"LmpwZw (5)",
+		"LmpwZw (6)",
+		"LmpwZw (7)",
+		"LmpwZw (8)",
+		"LmpwZw (9)",
+		"LmpwZw (10)",
+		"LmpwZw (11)",
+		"LmpwZw (12)",
+		"LmpwZw (13)",
+		"LmpwZw (14)",
+		"LmpwZw (15)",
+		"LmpwZw (16)",
+		"LmpwZw (17)",
+		"LmpwZw (18)",
+		"LmpwZw (19)",
+		"LmpwZw (20)",
+		"LmpwZw (21)",
+		"LmpwZw (22)",
+		"LmpwZw (23)",
+		"LmpwZw (24)",
+		"LmpwZw (25)",
+		"LmpwZw (26)",
+		"LmpwZw (27)",
+		"LmpwZw (28)",
+		"LmpwZw (29)",
+		"LmpwZw (30)",
+		"LmpwZw (31)",
+		"LmpwZw (32)",
+		"LmpwZw (33)",
+		"LmpwZw (34)",
+		"LmpwZw (35)",
+		"LmpwZw (36)",
+		"LmpwZw (37)",
+		"LmpwZw (38)",
+		"LmpwZw (39)",
+		"LmpwZw (40)",
+		"LmpwZw (41)",
+		"LmpwZw (42)",
+		"LmpwZw (43)",
+		"LmpwZw (44)",
+		"LmpwZw (45)",
+		"LmpwZw (46)",
+		"LmpwZw (47)",
+		"LmpwZw (48)",
+		"LmpwZw (49)",
+		"LmpwZw (50)",
+		"LmpwZw (51)",
+		"LmpwZw (52)",
+		"LmpwZw (53)",
+		"LmpwZw (54)",
+		"LmpwZw (55)",
+		"LmpwZw (56)",
+		"LmpwZw (57)",
+		"LmpwZw (58)",
+		"LmpwZw (59)",
+		"LmpwZw (60)",
+		"LmpwZw (61)",
+		"LmpwZw (62)",
+		"LmpwZw (63)",
+		"LmpwZw (64)",
+		"LmpwZw (65)",
+		"LmpwZw (66)",
+		"LmpwZw (67)",
+		"LmpwZw (68)",
+		"LmpwZw (69)",
+		"LmpwZw (70)",
+		"LmpwZw (71)",
+		"LmpwZw (72)",
+		"LmpwZw (73)",
+		"LmpwZw (74)",
+		"LmpwZw (75)",
+		"LmpwZw (76)",
+		"LmpwZw (77)",
+		"LmpwZw (78)",
+		"LmpwZw (79)",
+		"LmpwZw (80)",
+		"LmpwZw (81)",
+		"LmpwZw (82)",
+		"LmpwZw (83)",
+		"LmpwZw (84)",
+		"LmpwZw (85)",
+		"LmpwZw (86)",
+		"LmpwZw (87)",
+		"LmpwZw (88)",
+		"LmpwZw (89)",
+		"LmpwZw (90)",
+		"LmpwZw (91)",
+		"LmpwZw (92)",
+		"LmpwZw (93)",
+		"LmpwZw (94)",
+		"LmpwZw",          
+		"XzA1MDQwMzEuanBn",
+		"XzA1MzYzOTQuanBn",
+		"XzA3Mjc2MDQuanBn",
+		"XzA3MjMxMTYuanBn",
+		"XzA3MjMxMTYuanBn",
+		"XzA3ODM3MjIuanBn",
+		"XzA4MDMyMDkuanBn",
+		"XzA4NDEwMDguanBn",
+		"XzA4OTQ4NDYuanBn",
+		"XzA5NDM5NTUuanBn",
+		"XzA5NzM0NTQuanBn",
+		"XzA5ODI4MDguanBn",
+		"XzAwMDk5NjQuanBn",
+		"XzAwMTc0MjUuanBn",
+		"XzAwMzAzODkuanBn",
+		"XzAwNTAwNTAuanBn",
+		"XzAwNTExOTguanBn",
+		"XzAwNTQwNzcuanBn",
+		"XzAwNzM4NTQuanBn",
+		"XzAxMDYwODYuanBn",
+		"XzAxMjE2MjEuanBn",
+		"XzAyMTMyMTcuanBn",
+		"XzAyMTYxOTMuanBn",
+		"XzAzNTg3MzYuanBn",
+	];
+function iniciar(){
+
+	contenedorPrincipal();
+	/*for (var j=1;j<11;j++){
+		getFaces(j);
+	}*/
+	for(var i = 0; i < arrayImg.length;i++){
+		createImg(arrayImg[i]);
+	}
+}
+
+function createImg(url){
+	var ele = document.createElement('img');
+	ele.setAttribute('src','img/' + url + '.jpeg');
+	document.getElementById('contenedor').appendChild(ele);
+}
+
+
+function contenedorPrincipal(){
+	var ele = document.createElement('div');
+	ele.id = 'contenedor';
+	document.body.appendChild(ele);
+}
+window.onload=iniciar;
+</script>
+
+<style>
+</style>
+
+</head>
+ 
+<body>
+	<p><b>Instrucciones</b>: mover el cursor con teclas 4,8,6,2 del bloque numerico. ENTER y ESC para seleccionar. </p>
+</body>
+</html>
