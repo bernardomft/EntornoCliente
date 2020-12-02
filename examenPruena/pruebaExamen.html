@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function iniciar(){
+            crearEstructura();
+        }
+
+        function crearEstructura(){
+            //Primera caja
+            var ele = document.createElement('textarea');
+            ele.id = 'caja1';
+            //ele.type='textArea'
+            ele.style.width = '160px';
+            ele.style.height = '120px';
+            ele.style.display = 'block';
+            ele.style.margin = '20px';
+            ele.style.border = '1px solid grey';
+            //Caja Run
+            var run = document.createElement('div');
+            run.id = 'caja2';
+            run.style.width = '160px';
+            run.style.height = '60px';
+            run.style.display = 'block';
+            run.style.margin = '20px';
+            run.style.textAlign = 'center';
+            run.style.border = '1px solid grey';
+            run.innerHTML = 'run';
+            run.addEventListener('click', procesar);
+            //Caja barras
+            var ele2 = document.createElement('div');
+            ele2.id = 'caja3';
+            ele2.style.width = '160px';
+            ele2.style.height = '120px';
+            ele2.style.display = 'block';
+            ele2.style.margin = '20px';
+            ele2.style.border = '1px solid grey';
+            //Caja numeros
+            var ele3 = document.createElement('div');
+            ele3.id = 'caja4';
+            ele3.style.width = '160px';
+            ele3.style.height = '60px';
+            ele3.style.display = 'block';
+            ele3.style.margin = '20px';
+            ele3.style.border = '1px solid grey';
+
+            //Colhar elemetnos en el dom
+            document.body.appendChild(ele);
+            document.body.appendChild(run);
+            document.body.appendChild(ele2);
+            document.body.appendChild(ele3);
+        }
+
+        function procesar(){
+            var txt = document.getElementById('caja1').value;
+            console.log(txt.length);
+            var arrayNumeros = [];
+            arrayNumeros = txt.split(',');
+            var arrayDoble = [];
+            var j = 0;
+            arrayDoble[j] = [];
+            for(var i = 0; i < arrayNumeros.length;i++){
+                if(arrayNumeros[i].indexOf('\n') === -1){
+                    arrayDoble[j].push(arrayNumeros[i]);
+                }
+                else{
+                    arrayDoble[j].push(arrayNumeros[i].substring(0, arrayNumeros[i].indexOf('\n')));
+                    j++;
+                    arrayDoble[j] = [];
+                    arrayDoble[j].push(arrayNumeros[i].substring(arrayNumeros[i].indexOf('\n') + 1,arrayNumeros[i].length));
+                }
+            }
+            console.log(arrayNumeros);
+            console.log(arrayDoble);
+            dibujarCajas(arrayDoble);
+        }
+        function dibujarCajas(){
+                
+            }
+
+        window.onload = iniciar;
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
