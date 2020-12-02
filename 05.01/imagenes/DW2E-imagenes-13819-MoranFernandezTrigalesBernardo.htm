@@ -138,29 +138,91 @@
 		"XzAyMTYxOTMuanBn",
 		"XzAzNTg3MzYuanBn",
 	];
+	var arrayEle = [];
+	var idSelected = '0_0';
 function iniciar(){
 
 	contenedorPrincipal();
 	/*for (var j=1;j<11;j++){
 		getFaces(j);
 	}*/
+	var j = 0;
+	var k = 0;
 	for(var i = 0; i < arrayImg.length;i++){
 		createImg(arrayImg[i]);
+		arrayEle[i].id = j + '_' + k;
+		k++;
+		if(k%17 === 0){
+			j++;
+			k=0;
+		}
 	}
+	//Resaltar la primera
+	document.getElementById('0_0').style.filter = 'blur(5px)';
+	document.getElementById('0_0').style.border = '1px solid yellow';
+	document.body.addEventListener('keydown', function (event){
+		var tmp = idSelected.split('_');
+		if(event.key === '8'){
+			if(tmp[0] != '0'){
+				tmp[0] = parseInt(tmp[0]) - 1;
+				idSelected = tmp[0] + '_' + tmp[1];
+				mover(idSelected);
+			}
+		}else if(event.key === '2'){
+			if(tmp[0] != '6'){
+				tmp[0] = parseInt(tmp[0]) + 1;
+				idSelected = tmp[0] + '_' + tmp[1];
+				mover(idSelected);
+			}
+		}else if(event.key === '4'){
+			if(tmp[1] != '0'){
+				tmp[1] = parseInt(tmp[1]) - 1;
+				idSelected = tmp[0] + '_' + tmp[1];
+				mover(idSelected);
+			}
+		}
+		else if(event.key === '6'){
+			if(tmp[1] != '16'){
+				tmp[1] = parseInt(tmp[1]) + 1;
+				idSelected = tmp[0] + '_' + tmp[1];
+				mover(idSelected);
+			}
+		}/*else if(event.key === 'Enter'){
+			console.log(idSelected);
+			document.getElementById(idSelected).style.background = '1px solid blue';
+		}*/
+	});
+}
+
+function mover(id){
+	document.getElementById(id).style.filter = 'blur(5px)';
+	document.getElementById(id).style.border = '1px solid yellow';
 }
 
 function createImg(url){
 	var ele = document.createElement('img');
-	ele.setAttribute('src','img/' + url + '.jpeg');
+	ele.setAttribute('src','img/' + url + '.jpg');
+	ele.width = '60';
+	ele.height = '60';
+	ele.addEventListener('click', clickeo);
+	arrayEle.push(ele);
 	document.getElementById('contenedor').appendChild(ele);
 }
 
+function clickeo(){
+	document.getElementById(this.id).style.filter = 'blur(5px)';
+	document.getElementById(this.id).style.border = '1px solid yellow';
+	idSelected =this.id;
+}
 
 function contenedorPrincipal(){
 	var ele = document.createElement('div');
 	ele.id = 'contenedor';
+	ele.style.width = '1026px';
 	document.body.appendChild(ele);
 }
+
+
 window.onload=iniciar;
 </script>
 
@@ -171,5 +233,6 @@ window.onload=iniciar;
  
 <body>
 	<p><b>Instrucciones</b>: mover el cursor con teclas 4,8,6,2 del bloque numerico. ENTER y ESC para seleccionar. </p>
+	
 </body>
 </html>
