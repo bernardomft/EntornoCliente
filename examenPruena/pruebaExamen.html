@@ -5,86 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        img:focus, img:active{
-            border: 1px solid red;
+        * {
+            box-sizing: border-box;
+        }
+        .caja{
+            width: 200px;
+            border: 2px solid grey;
+            margin: 0.5em 0em;
+        }
+
+        .caja-grande{
+            height: 120px;
+        }
+
+        .caja-pequeña{
+            height: 60px;
+        }
+
+        .centrar{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .boton{
+            background-color: grey;
+            margin:2px auto;
+        }
+
+        #caja4{
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+        }
+        .barra{
+            background-color: grey;
         }
     </style>
-    <script>
+
+    <script type="text/javascript">
+        var tmpG;
         function iniciar(){
-            crearEstructura();
+            //Caja uno
+            var caja1 = document.createElement('textarea');
+            caja1.id = 'caja1';
+            caja1.classList = 'caja caja-grande';
+            caja1.innerHTML = '1,1,2,3,4,99\n30,40,50,60,20,30\n90,10,80,70,62,99';
+            document.body.appendChild(caja1);
+
+            var caja2 = document.createElement('div');
+            caja2.id = 'caja2';
+            caja2.innerHTML = 'run';
+            caja2.classList = 'caja caja-pequeña centrar';
+            caja2.addEventListener('click', correr);
+            document.body.appendChild(caja2);
+
+            var caja3 = document.createElement('div');
+            caja3.id = 'caja3';
+            caja3.classList = 'caja caja-grande';
+            document.body.appendChild(caja3);
+
+            var caja1 = document.createElement('div');
+            caja1.id = 'caja4';
+            caja1.classList = 'caja caja-pequeña';
+            document.body.appendChild(caja1);            
         }
 
-        function crearEstructura(){
-            //Primera caja
-            var ele = document.createElement('textarea');
-            ele.id = 'caja1';
-            //ele.type='textArea'
-            ele.style.width = '160px';
-            ele.style.height = '120px';
-            ele.style.display = 'block';
-            ele.style.margin = '20px';
-            ele.style.border = '1px solid grey';
-            //Caja Run
-            var run = document.createElement('div');
-            run.id = 'caja2';
-            run.style.width = '160px';
-            run.style.height = '60px';
-            run.style.display = 'block';
-            run.style.margin = '20px';
-            run.style.textAlign = 'center';
-            run.style.border = '1px solid grey';
-            run.innerHTML = 'run';
-            run.addEventListener('click', procesar);
-            //Caja barras
-            var ele2 = document.createElement('div');
-            ele2.id = 'caja3';
-            ele2.style.width = '160px';
-            ele2.style.height = '120px';
-            ele2.style.display = 'block';
-            ele2.style.margin = '20px';
-            ele2.style.border = '1px solid grey';
-            //Caja numeros
-            var ele3 = document.createElement('div');
-            ele3.id = 'caja4';
-            ele3.style.width = '160px';
-            ele3.style.height = '60px';
-            ele3.style.display = 'block';
-            ele3.style.margin = '20px';
-            ele3.style.border = '1px solid grey';
-
-            //Colhar elemetnos en el dom
-            document.body.appendChild(ele);
-            document.body.appendChild(run);
-            document.body.appendChild(ele2);
-            document.body.appendChild(ele3);
-        }
-
-        function procesar(){
-            var txt = document.getElementById('caja1').value;
-            console.log(txt.length);
-            var arrayNumeros = [];
-            arrayNumeros = txt.split(',');
-            var arrayDoble = [];
-            var j = 0;
-            arrayDoble[j] = [];
-            for(var i = 0; i < arrayNumeros.length;i++){
-                if(arrayNumeros[i].indexOf('\n') === -1){
-                    arrayDoble[j].push(arrayNumeros[i]);
-                }
-                else{
-                    arrayDoble[j].push(arrayNumeros[i].substring(0, arrayNumeros[i].indexOf('\n')));
-                    j++;
-                    arrayDoble[j] = [];
-                    arrayDoble[j].push(arrayNumeros[i].substring(arrayNumeros[i].indexOf('\n') + 1,arrayNumeros[i].length));
-                }
+        function correr(){
+            var tmp = document.getElementById('caja1').innerHTML;
+            tmp = tmp.split('\n');
+            var tmp2 = [];
+            for(var i = 0; i < tmp.length; i++){
+                tmp2[i] = tmp[i].split(',');
             }
-            console.log(arrayNumeros);
-            console.log(arrayDoble);
-            dibujarCajas(arrayDoble);
+            console.log(tmp2);
+            //arrayG= tmp2;
+            dibujarCuadros(tmp2);
         }
-        function dibujarCajas(){
-                
+
+        function dibujarCuadros(tmp2){
+            var tmp3 = [];
+            for(var i = 0; i < tmp2.length; i++){
+                var ele = document.createElement('div');
+                ele.classList = 'centrar boton';
+                //ele.id = i.toString();
+                ele.innerHTML = i.toString();
+                ele.style.width = 180/tmp2.length + 'px';
+                console.log(tmp2[i]);
+                tmp3 = tmp2[i];
+                //tmpG = tmp2[i];
+                ele.addEventListener('click', dibujarBarras.bind(null, tmp3));
+                document.getElementById('caja4').appendChild(ele);
             }
+        }
+
+        function dibujarBarras(tmp){
+            //console.log(tmp);
+            var h = 116/tmp.length;
+            document.getElementById('caja3').innerHTML = '';
+            for(var i = 0; i < tmp.length; i++){
+                var ele=document.createElement('div');
+                ele.style.width = tmp[i]/99 *100 + '%';
+                ele.style.height = h+'px';
+                ele.classList = 'barra';
+                document.getElementById('caja3').appendChild(ele);
+            }
+        }
+
 
         window.onload = iniciar;
     </script>

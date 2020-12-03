@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <title>Examen 1ª ev Manuel blanco</title>
+  <style type="text/css">
+    * {
+      font-family: sans-serif;
+      font-size: large; /*16.3px;*/
+      color: blue;
+      box-sizing: border-box;
+    }
+    .centrado {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    textarea {
+      margin-bottom: -4px; /* no entiendo pero a ojo */
+      resize: none;
+    }
+    body > * {
+      border: 3px solid gray;
+    }
+    body > * + * {
+      margin-top: 6px;
+    }
+    .caja-grande, .caja-peque {
+      width: 200px;
+    }
+    .caja-grande {
+      height: 120px;
+    }
+    .caja-peque {
+      height: 60px;
+    }
+    .rojo:hover {
+      background-color: red;
+      cursor: pointer;
+    }
+    #botones {
+      display: flex;
+    }
+    .boton {
+      flex: 1;
+      border: 2px solid white;
+      background-color: lightgray;
+    }
+    #barras {
+      display: flex;
+      flex-direction: column;
+      padding-right: 4px;
+    }
+    .barra {
+      flex: 1;
+      border-right: 2px solid gray;
+      background-color: lightgray;
+      margin: 2px;
+      transition: all 0.5s;
+    }
+  </style>
+  <script type="text/javascript">
+    const minPermitido = 1;
+    const maxPermitido = 99;
+
+    window.addEventListener('load', examen);
+
+    function examen() {
+      const text = document.createElement('textarea');
+      text.classList.add("caja-grande");
+      text.innerHTML =
+        `1,1,2,3,4,99
+		30,40,50,60,20,30
+		90,10,80,70,62,99`;
+      document.body.appendChild(text);
+
+      const run = document.createElement('div');
+      run.classList.add("caja-peque", "centrado", "rojo");
+      run.innerHTML = "run";
+      run.addEventListener('click', mostrarBotones);
+      document.body.appendChild(run);
+
+      const barras = document.createElement('div');
+      barras.id = "barras";
+      barras.classList.add("caja-grande");
+      document.body.appendChild(barras);
+
+      const botones = document.createElement('div');
+      botones.id = "botones";
+      botones.classList.add("caja-peque");
+      document.body.appendChild(botones);
+    }
+
+    function mostrarBotones() {
+      const texto = document.querySelector("textarea").value;
+      const vals = valores(texto);
+      if (!vals) {
+        // ha habido errores, no hacer nada
+        return;
+      }
+      const botones = document.getElementById("botones");
+      botones.innerHTML = "";
+      for (let i = 0; i < vals.length; i++) {
+        const boton = document.createElement('div');
+        boton.classList.add("centrado", "rojo", "boton");
+        boton.innerHTML = i;
+        boton.addEventListener('click', () => mostrarBarras(vals[i]));
+        botones.appendChild(boton);
+      }
+      document.getElementById("barras").innerHTML = "";
+      botones.childNodes.item(0).click();
+    }
+
+    function valores(texto) {
+      const lineas = texto.split("\n").map(linea => linea.split(","));
+      if (lineas.length > 5) {
+        // error2
+        alert("mas de 5 lineas");
+        return false;
+      }
+      const primeraFila = lineas[0];
+      for (let i = 0; i < lineas.length; i++) {
+        const linea = lineas[i];
+        if (linea.length > 6) {
+          // error1
+          alert("mas de 6 campos en linea " + (i + 1));
+          return false;
+        }
+        if (linea.length !== primeraFila.length) {
+          // error3 //Aquí falla
+          alert("no hay los mismos campos en todas las lineas");
+          return false;
+        }
+        for (let j = 0; j < linea.length; j++) {
+          const num = parseInt(linea[j]);
+          if (!Number.isInteger(num)) {
+            // error4
+            alert("entrada no es entero: " + linea[j]);
+            return false;
+          }
+          if (num < minPermitido || num > maxPermitido) {
+            // error5
+            alert("datos fuera de rango: " + num);
+            return false;
+          }
+          lineas[i][j] = num;
+        }
+      }
+      return lineas;
+    }
+
+    function mostrarBarras(fila) {
+      const barras = document.getElementById("barras");
+      if (barras.innerHTML === "") {
+        for (const col of fila) {
+          const div = document.createElement('div');
+          div.classList.add("barra");
+          barras.appendChild(div);
+        }
+      }
+      for (let i = 0; i < barras.childNodes.length; i++) {
+        barras.childNodes.item(i).style.width = fila[i] / maxPermitido * 100 + "%";
+      }
+    }
+  </script>
+</head>
+<body>
+
+</body>
+</html>
