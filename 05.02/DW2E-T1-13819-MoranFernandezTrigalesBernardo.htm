@@ -1,0 +1,109 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>B1</title>
+
+	<style>
+		.gris {
+			background-color: #DDD;
+		}
+
+		.contenedor {
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			top: 16px;
+			left: 16px;
+			text-align: center;
+			background-color: grey;
+			transition: top 2s, background-color 2s;
+		}
+
+		div>div {
+			position: absolute;
+			background-color: red;
+			width: 24px;
+			height: 24px;
+			text-align: center;
+			border-radius: 12px;
+		}
+
+		.izq {
+			left: -10px;
+		}
+
+		.der {
+			left: 36px;
+		}
+
+		.arr {
+			top: -10px;
+		}
+
+		.abj {
+			top: 36px;
+		}
+	</style>
+
+	<script>
+
+		function inicio() {
+			crearDiv('8');
+		}
+
+		function crearDiv(s){
+			var ele = document.createElement('div');
+			ele.innerHTML = s;
+			ele.id = s;
+			ele.className = 'contenedor';
+			document.body.appendChild(ele);
+			for (var i = 0; i < 4; i++) {
+				var circulo = document.createElement('div');
+				circulo.id = s + '_' + i; 
+				if (i === 0)
+					circulo.className = 'izq arr';
+				else if (i === 1)
+					circulo.className = 'izq abj';
+				else if (i === 2)
+					circulo.className = 'der arr';
+				else if (i === 3)
+					circulo.className = 'der abj';
+				ele.appendChild(circulo);
+			}
+			if(!(parseInt(s) <= 1)){
+				ele.addEventListener('click', mover);
+				ele.style.cursor = 'pointer';
+			}
+				
+		}
+
+		function mover(){
+			this.style.top = (parseInt(this.id) - 1 )* 90 + 'px'; //50px(alto caja gris) + 24px(2*12px de cada circulo) + 16px(top inicial) 
+			this.style.backgroundColor = 'yellow';
+			var tmp = parseInt(this.id) - 1;
+			crearDiv(tmp.toString());
+			this.removeEventListener('click', mover);
+			this.addEventListener('click', cambiaColor);
+		}
+
+		function cambiaColor(){
+			console.log(this);
+			this.style.cursor = '';
+			if(this.id != 1){
+				for(var i = 0; i < 4; i++){
+				var tmp =  document.getElementById(this.id + '_' + i);
+				tmp.style.backgroundColor = 'green';
+				}
+			}
+		};
+		
+		window.onload = inicio;
+	</script>
+</head>
+
+<body></body>
+
+</html>

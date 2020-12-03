@@ -1,0 +1,29 @@
+INSTRUCCIONES ==
+* Entrega: DW2E-T1-expediente-ApellidosNombre.htm
+* Tiempo: 100m
+* Entregar un solo fichero, indicado en entrega.
+* Solo se evalua entregas correctas dentro del tiempo.
+* No escribir html, el body estará vacio.
+* Se adjunta parte del programa con errores que debe corregir el alumno.
+* Ejercicio realizado sobre: linux-max-10.0, firefox-77.0.1, zoom-100%, pantalla-1024x768pixel
+* Adjunto video, captura inicial y captura final.
+
+APARTADOS ==
+* página inicial y recarga de página
+- caja gris dimensiones
+- bolas rojas dimensiones
+- caja gris posicion
+- bolas rojas posicion
+- texto de la caja gris 8
+* eventos
+- click caja8 inicio del movimiento
+- movimiento de la caja8
+- cambio de color de la caja8
+- movimiento resto de cajas
+- posicion final todas las cajas
+- click caja 1 no hace nada
+* avanzados
+- click caja2 a caja8 bolas en verde
+- cambio de puntero si la caja tiene evento en todas las cajas en todo el ejercicio.
+* Cada guion terminado es un punto
+Total de puntos = 5+6+2 
