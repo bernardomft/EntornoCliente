@@ -1,0 +1,23 @@
+.contenedor{
+    display: flex;
+    justify-content: space-around;
+}
+
+.caja{
+    width: 30%;
+    padding: 0.2em;
+    border: 1px solid #000000;
+    text-align: center;
+}
+
+.caja h1{
+    background-color: aqua;
+}
+
+.caja .añadir{
+    background-color: green;
+}
+
+.caja .bookm{
+    background-color: rgb(226, 205, 10);
+}
