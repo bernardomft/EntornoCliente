@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EJ21</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        .caja{
+            height: 100px;
+            width: 500px;
+            text-align: center;
+            background-origin: 0.5px solid grey;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 0.5px solid grey;
+            margin: 0.5em;
+            font-size: 1.5em;
+        }
+
+        .caja:hover{
+            background-color: yellow;
+        }
+
+        .caja2{
+            border: 0.5px dotted grey;
+        }
+    </style>
+    <script>
+        var contenedor;
+        var audi = new Audio();
+        function iniciar(){
+            contenedor =  document.createElement('div');
+            contenedor.id = 'cointenedor';
+            document.body.appendChild(contenedor);
+            for(var i = 1;i <= 3;i++){
+                crearCajas(contenedor, i, 0);
+            }
+            crearCajas(contenedor, 'parar',1);
+            crearCajas(contenedor, 'tiempo',1);
+            crearCajas(contenedor, 'duracion',1);
+            var barra = document.createElement('div');
+            barra.className = 'w3-border';
+            var barra2 = document.createElement('div');
+            barra2.className = 'w3-grey';
+            barra2.style.height = '100px';
+            barra2.style.width = '500px';
+            barra.appendChild(barra2);
+            contenedor.appendChild(barra);
+            /*var audio = document.createElement('audio');
+            audio.setAttributeNode(document.createAttribute('controls'));
+            audio.setAttribute('preload', 'metadata');
+            audio.id = 'audio';
+            document.body.appendChild(audio);
+            var source = document.createElement('source');
+            source.setAttributeNode(document.createAttribute('src'));
+            source.setAttribute('type','audio/mp3');
+            source.id = 'source';
+            audio.appendChild(source);*/
+        }
+
+        function crearCajas(element, i,j){
+                var tmp = document.createElement('div');
+                tmp.className = 'caja';
+                if(j == 1){
+                    tmp.innerHTML = i;
+                    tmp.id = i;
+                    if(i === 'parar')
+                        tmp.addEventListener('mousedown', stop);
+                    if(i === 'tiempo' || i === 'duracion')
+                        tmp.className = 'caja caja2';
+                }
+                else{
+                    tmp.id = 'id' + i;
+                    tmp.innerHTML = 'track' + i;
+                    tmp.addEventListener('mousedown', play);
+                }
+                element.appendChild(tmp);
+        }
+
+        function play(){
+            audi.pause();
+            audi = '';
+            audi = new Audio('mp3/' + this.innerHTML + '.mp3');
+            audi.play();
+            var n = audi.duration;
+            console.log(n);
+        }
+
+        function stop(){
+            audi.pause();
+        }
+
+
+
+
+        window.onload = iniciar;
+    </script>
+</head>
+<body>
+</body>
+</html>

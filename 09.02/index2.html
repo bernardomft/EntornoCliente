@@ -1,0 +1,14 @@
+
+
+<!DOCTYPE html>
+<html>
+<script>
+/* https://marcgg.com/blog/2016/11/01/javascript-audio */
+/* https://www.the-art-of-web.com/javascript/creating-sounds/ */
+var context = new AudioContext()
+var o = context.createOscillator()
+o.type = "sine"
+o.connect(context.destination)
+o.start()
+</script>
+</html>
