@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .contenedor {
+            width: 80%;
+            display: flex;
+            justify-content: space-around;
+
+        }
+
+        .caja,
+        .caja-g {
+            border: 1px solid #000000;
+            height: 50px;
+            width: 150px;
+        }
+
+        .caja-g {
+            margin: 1em;
+            width: 80%;
+        }
+    </style>
+
+    <script>
+        //Mejor usar addEventListener para interactuar con los eventos en lugar de añadirlos al html con, por ejemplo, onclick=funcion(this)
+        function color(a) {
+            var r = document.getElementById('R').value;
+            var g = document.getElementById('G').value;
+            var b = document.getElementById('B').value;
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                    document.getElementById('texto').innerHTML = '#' + this.responseText;
+                    document.getElementById('cajaColor').style.backgroundColor = '#' + this.responseText;
+                    document.getElementById('red').style.backgroundColor = '#' + this.responseText.substring(0,2) + '0000';
+                    document.getElementById('green').style.backgroundColor = '#00' + this.responseText.substring(2,4) + '00';
+                    document.getElementById('blue').style.backgroundColor = '#0000' + this.responseText.substring(4,6);
+                }
+            }
+            xmlhttp.open("GET", "113.php?r=" + r + "&g=" + g + "&b=" + b,true);
+            xmlhttp.send();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="contenedor">
+        <input type="range" name="R" id="R" min='0' max='255' onchange=color(this) value='0'>
+        <input type="range" name="G" id="G" min='0' max='255' onchange=color(this) value='0'>
+        <input type="range" name="B" id="B" min='0' max='255' onchange=color(this) value='0'>
+    </div>
+    <div class="contenedor">
+        <div class="caja" id='red'></div>
+        <div class="caja" id="green"></div>
+        <div class="caja" id="blue"></div>
+    </div>
+
+    <div class="caja-g" id="cajaColor">
+
+    </div>
+
+    <div class="caja" id="texto"></div>
+</body>
+
+</html>

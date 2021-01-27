@@ -12,13 +12,21 @@ nota: anteriormente los alumnos han trabajado 90 minutos en los mismos conceptos
 Apartados:
 
 1- Cajas
-a.  Dimensiones
-b.  Alineación
+
+	a.  Dimensiones
+
+	b.  Alineación
+	
 c.  Texto centrado horizontal
+	
 d.  Texto centrado vertical
+	
 e.  Estilos de los textos
-f.  Bordes
-g.  Al pasar poner color amarillo
+
+	f.  Bordes
+
+	g.  Al pasar poner color amarillo
+	
 h.  El último botón pulsado queda en color rojo al salir
 
 2- Evento: mousedown en cada caja para reproducir cada archivo

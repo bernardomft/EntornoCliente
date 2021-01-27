@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>datosServidor</title>
+
+    <script>
+        function varios() {
+            //console.log(this.value);
+            var data = "<nombre>" + this.value + "</nombre>";
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    //var xml = this.responseXML;
+                    //var tmp = xml.getElementsByTagName('nombre');
+                    var parser = new DOMParser();
+                    var xmlDoc = parser.parseFromString(xmlhttp.responseText, "text/xml");
+                    console.log(xmlDoc.getElementsByTagName('nombre'));
+                }
+            }
+            xmlhttp.open("GET", "DW2E-datosServidor-13819-MoranFernandezTrigalesBernardo.php?q=" + data, true);
+            xmlhttp.send();
+        }
+
+        function iniciar() {
+            document.getElementById('txt1').onkeyup = varios;
+        }
+
+        window.onload = iniciar;
+    </script>
+</head>
+
+<body>
+    <h3>
+        <h3>Start typing a name in the input field below:</h3>
+
+        First name: <input type="text" id="txt1" />
+
+        <p>Suggestions: <span id="txtHint"></span></p>
+    </h3>
+</body>
+
+</html>

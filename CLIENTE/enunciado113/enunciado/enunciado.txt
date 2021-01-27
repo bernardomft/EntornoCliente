@@ -1,0 +1,11 @@
+Desarrollar en cliente, servidor y ajax igual que en el video presentado.
+
+01- Los 8 elementos y su disposicion en la pantalla
+02- Pantalla incial, recargas de la pagina, reset de los controles
+03- Limitar los valores de 0 a 255
+04- Enviar r,g,b, recibir el color en hexadecimal, presentar el numero hexadecimal en pantalla
+05- Presentar los tres colores primarios en sus cajas
+06- Presentar el color RGB en su caja
+
+
+
