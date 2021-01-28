@@ -53,29 +53,21 @@ $a[]="Wenche";
 $a[]="Vicky";
 
 $q=$_REQUEST["q"];
-$q= simplexml_load_string($q);
+$q= json_decode($q);
 //echo print_r($q);
+//echo $q->{'text'};
 $hint=[];
-if ($q != ""){ 
-	$q=strtolower($q); 
-	$len=strlen($q);
+if ($q->{'text'} != ""){ 
+	$q->{'text'}=strtolower($q->{'text'}); 
+	$len=strlen($q->{'text'});
     foreach($a as $name){ 
-    	if (stristr($q, substr($name,0,$len))){ 
+    	if (stristr($q->{'text'}, substr($name,0,$len))){ 
             array_push($hint,$name);
       	}
     }
-    $response = "";
-    foreach($hint as $h){
-        if ($response===""){ 
-    		$response="<nombres><nombre>" . $h . "</nombre>"; 
-		}else{ 
-			$response.="<nombre>" . $h . "</nombre>"; ;
-        }
-	}
-	$response .= '</nombres>';
   }
   
-  echo $hint===[] ? "no suggestion" : $response;
+  echo $hint===[] ? "no suggestion" : json_encode($hint);
 
 }
 
