@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>datosServidor</title>
+
+    <script>
+        function varios() {
+            var data = {
+                text: this.value
+            };
+            console.log(this.value);
+            var data = JSON.stringify(data);
+            var s = document.createElement("script");
+            s.src = "http://cejastu.orgfree.com/cliente/DW2E-datosServidor-JSON-P-13819-MoranFernandezTrigalesBernardo.php?q="+data;
+            document.body.appendChild(s);
+        }
+
+        function res(json){
+            console.log(json);
+            if(json != 'no suggestion'){
+                //var tmp = JSON.parse(json);
+                //console.log(tmp);
+                document.getElementById('txtHint').innerHTML = json.join(' ');
+            }
+            else
+                document.getElementById('txtHint').innerHTML = json;
+        }
+
+        function iniciar() {
+            document.getElementById('txt1').onkeyup = varios;
+        }
+
+        window.onload = iniciar;
+    </script>
+</head>
+
+<body>
+    <h3>
+        <h3>Start typing a name in the input field below:</h3>
+
+        First name: <input type="text" id="txt1" />
+
+        <p>Suggestions: <span id="txtHint"></span></p>
+    </h3>
+</body>
+
+</html>
