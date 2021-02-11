@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" media="screen" href="styles.css" >    
+    <title>Formulario HTML</title>
+</head>
+<body>
+    <form class="contact_form" action="" method="post" name="contact_form" novalidate>
+        <ul>
+            <li>
+                 <h2>Name</h2>
+                 <span class="required_notification">* Denotes Required Field</span>
+            </li>
+            <li>
+                <label for="name">Name:</label>
+                <input type="text" name="name" placeholder="John Doe" required/>
+            </li>
+            <li>
+                <label for="sex">Sex:</label>
+                <input type="radio" id="male" name="sex" value="male">
+                <label for="male">Male</label>
+                <input type="radio" id="male" name="sex" value="female">
+                <label for="male">Female</label>
+            </li>
+            <li>
+                <label for="website">Website:</label>
+                <input type="url" name="website" placeholder="http://johndoe.com/" required pattern="(http|https)://.+"/>
+                <span class="form_hint">Proper format "https://someaddress.com"</span>
+            </li>
+            <li>
+                <label for="message">Message:</label>
+                <textarea name="message" cols="40" rows="6" required> </textarea>
+            </li>
+            <li>
+                <button class="submit" type="submit">Submit Form</button>
+            </li>
+        </ul>
+    </form>
+</body>
+</html>
