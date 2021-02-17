@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .caja{border: 1px solid black;}
+    </style>
+    <script>
+        function inicio(){
+            //SESSION STORAGE
+            var alSesion = document.getElementById('almacenar-sesion').addEventListener('click', almacenaSesion);
+            var leSesion = document.getElementById('lee-sesion').addEventListener('click', leeSesion);
+            var boSesion = document.getElementById('borra-sesion').addEventListener('click', borraInfo);
+            var ciSesion = document.getElementById('cierra-sesion').addEventListener('click', cierraSesion);
+
+              //LOCAL STORAGE
+            var alLocal = document.getElementById('almacenar-local').addEventListener('click', almacenaLocal);
+            var lelocal = document.getElementById('lee-local').addEventListener('click', leeLocal);
+            var bolocal = document.getElementById('borra-local').addEventListener('click', borraLocal);
+            var ciLocal = document.getElementById('cierra-local').addEventListener('click', cierraLocal);
+        }
+
+        //LOCAL STORAGE FUNCTIONS
+        function almacenaLocal(){
+            var myLocal = window.localStorage;
+            myLocal.setItem('info', document.getElementById('local-info').value);
+            document.getElementById('local-info').value='';
+        }
+
+        function leeLocal(){
+            var myLocal = window.localStorage;
+            var ele = document.createElement('div');
+            ele.innerHTML = 'INFO LOCAL: ' + myLocal.getItem('info');
+            document.getElementById('local').appendChild(ele);
+        }
+
+        function borraLocal(){
+            var myLocal = window.localStorage;
+            myLocal.removeItem('info');
+        }
+
+        function cierraLocal(){
+            var myLocal = window.localStorage;
+            myLocal.clear();
+        }
+
+        //LOCAL STORAGE FUNCTIONS
+
+
+        //SESSION STORAGE FUNCTIONS
+        function almacenaSesion(){
+            var mySession = window.sessionStorage;
+            mySession.setItem('info', document.getElementById('sesion-info').value);
+            document.getElementById('sesion-info').value='';
+        }
+
+        function leeSesion(){
+            var mySession = window.sessionStorage;
+            var ele = document.createElement('div');
+            ele.innerHTML = 'INFO SESION: ' + mySession.getItem('info');
+            document.getElementById('sesion').appendChild(ele);
+        }
+
+        function borraInfo(){
+            var mySession = window.sessionStorage;
+            mySession.removeItem('info');
+        }
+
+        function cierraSesion(){
+            var mySession = window.sessionStorage;
+            mySession.clear();
+        }
+        //FIN SESSION STORAGE FUNCTIONS
+        
+
+        window.onload = inicio;
+    </script>
+</head>
+<body>
+    <div id="sesion" class="caja">
+        <h1>SESSION STORAGE</h1>
+        <label for="sesion-info">SESION INFO</label>
+        <input type="text" name="sesion-info" id="sesion-info">
+        <button id='almacenar-sesion'>Almacena la info</button>
+        <button id="lee-sesion">Lee la informacion</button>
+        <button id="borra-sesion">Borra la informacion</button>
+        <button id="cierra-sesion">CIERRA LA SESION</button>
+    </div>
+
+    <div id="local" class="caja">
+        <h1>LOCAL STORAGE</h1>
+        <label for="local-info">LOCAL INFO</label>
+        <input type="text" name="local-info" id="local-info">
+        <button id='almacenar-local'>Almacena la info</button>
+        <button id="lee-local">Lee la informacion</button>
+        <button id="borra-local">Borra la informacion</button>
+        <button id="cierra-local">CIERRA EL LOCAL STORAE</button>
+    </div>
+</body>
+</html>

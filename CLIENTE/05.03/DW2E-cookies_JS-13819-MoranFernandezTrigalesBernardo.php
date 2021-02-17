@@ -50,8 +50,8 @@
         function inicio(){
             document.getElementById('borrar').addEventListener('click', borrar);
             if(getCookie('carro')){
-                var c=getCookie('carro').replaceAll('%3B', '<br>');
-                //c.replaceAll('%20' , ' ');
+                var c=getCookie('carro').replaceAll(';', '<br>');
+                c.replaceAll('%20' , ' ');
                 var carro = document.createElement('div');
                 carro.innerHTML = '<h1>TU CARRO DE LA COMPRA</h1>' + c.replaceAll('%20' , ' ');;
                 document.body.appendChild(carro);
@@ -63,19 +63,21 @@
             document.cookie = "carro=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }
         function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-            c = c.substring(1);
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
             }
-            if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-            }
+            return "";
         }
-        return "";
-        }
+        
 
         window.onload = inicio;
     </script>
