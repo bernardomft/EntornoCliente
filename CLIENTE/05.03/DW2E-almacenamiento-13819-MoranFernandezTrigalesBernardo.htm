@@ -1,48 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .caja{border: 1px solid black;}
+        .caja {
+            border: 1px solid black;
+        }
     </style>
     <script>
-        function inicio(){
+        function inicio() {
             //SESSION STORAGE
             var alSesion = document.getElementById('almacenar-sesion').addEventListener('click', almacenaSesion);
             var leSesion = document.getElementById('lee-sesion').addEventListener('click', leeSesion);
             var boSesion = document.getElementById('borra-sesion').addEventListener('click', borraInfo);
             var ciSesion = document.getElementById('cierra-sesion').addEventListener('click', cierraSesion);
 
-              //LOCAL STORAGE
+            //LOCAL STORAGE
             var alLocal = document.getElementById('almacenar-local').addEventListener('click', almacenaLocal);
             var lelocal = document.getElementById('lee-local').addEventListener('click', leeLocal);
             var bolocal = document.getElementById('borra-local').addEventListener('click', borraLocal);
             var ciLocal = document.getElementById('cierra-local').addEventListener('click', cierraLocal);
+
+            //IndexeDB
+            var aldb = document.getElementById('almacenar-db').addEventListener('click', almacenadb);
+            var ledb = document.getElementById('lee-db').addEventListener('click', leedb);
+            //var bodb = document.getElementById('borra-db').addEventListener('click', borradb);
+            //var cidb = document.getElementById('cierra-db').addEventListener('click', cierradb);
         }
 
-        //LOCAL STORAGE FUNCTIONS
-        function almacenaLocal(){
+        //INDEXEDB FUNCTIONS
+        function almacenadb() {
+            window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+            const informacion = {
+                code: 1,
+                info: document.getElementById('db-info').value
+            };
+            document.getElementById('db-info').value = '';
+            if (!window.indexedDB) {
+                window.alert(
+                    "Su navegador no soporta una versión estable de indexedDB. Tal y como las características no serán validas"
+                );
+            } else {
+                var db;
+                var request = window.indexedDB.open("MyTestDatabase", 3);
+                request.onerror = function (event) {
+                    console.log('error al abrir la base de datos');
+                };
+                request.onsuccess = function (event) {
+                    var db = event.target.result;
+                    var customerObjectStore = db.transaction("information", "readwrite").objectStore("information");
+                    customerObjectStore.add(informacion.info);
+                };
+
+                request.onupgradeneeded = function (event) {
+                    console.log('por aqui');
+                    db = event.target.result;
+                    var objectStore = db.createObjectStore("information",  {autoIncrement: true});
+                    objectStore.createIndex("info", "info", {unique: false});
+                    objectStore.transaction.oncomplete = function (event) {
+                        // Guarda los datos en el almacén recién creado.
+                        var customerObjectStore = db.transaction("information", "readwrite").objectStore("information");
+                        customerObjectStore.add(informacion.info);
+                    }
+
+                };
+            }
+
+        }
+
+        function leedb() {
+            var request = window.indexedDB.open("MyTestDatabase", 3);
+            request.onsuccess = function (event) {
+                var db = event.target.result;
+                var transaction = db.transaction(["information"]);
+                var objectStore = transaction.objectStore("information");
+                var request = objectStore.get(1);
+                console.log(request.result);
+            };
+        }
+
+        //LOCAL STORAGE FUNCTIONS+
+        function almacenaLocal() {
             var myLocal = window.localStorage;
             myLocal.setItem('info', document.getElementById('local-info').value);
-            document.getElementById('local-info').value='';
+            document.getElementById('local-info').value = '';
         }
 
-        function leeLocal(){
+        function leeLocal() {
             var myLocal = window.localStorage;
             var ele = document.createElement('div');
             ele.innerHTML = 'INFO LOCAL: ' + myLocal.getItem('info');
             document.getElementById('local').appendChild(ele);
         }
 
-        function borraLocal(){
+        function borraLocal() {
             var myLocal = window.localStorage;
             myLocal.removeItem('info');
         }
 
-        function cierraLocal(){
+        function cierraLocal() {
             var myLocal = window.localStorage;
             myLocal.clear();
         }
@@ -51,34 +111,35 @@
 
 
         //SESSION STORAGE FUNCTIONS
-        function almacenaSesion(){
+        function almacenaSesion() {
             var mySession = window.sessionStorage;
             mySession.setItem('info', document.getElementById('sesion-info').value);
-            document.getElementById('sesion-info').value='';
+            document.getElementById('sesion-info').value = '';
         }
 
-        function leeSesion(){
+        function leeSesion() {
             var mySession = window.sessionStorage;
             var ele = document.createElement('div');
             ele.innerHTML = 'INFO SESION: ' + mySession.getItem('info');
             document.getElementById('sesion').appendChild(ele);
         }
 
-        function borraInfo(){
+        function borraInfo() {
             var mySession = window.sessionStorage;
             mySession.removeItem('info');
         }
 
-        function cierraSesion(){
+        function cierraSesion() {
             var mySession = window.sessionStorage;
             mySession.clear();
         }
         //FIN SESSION STORAGE FUNCTIONS
-        
+
 
         window.onload = inicio;
     </script>
 </head>
+
 <body>
     <div id="sesion" class="caja">
         <h1>SESSION STORAGE</h1>
@@ -99,5 +160,15 @@
         <button id="borra-local">Borra la informacion</button>
         <button id="cierra-local">CIERRA EL LOCAL STORAE</button>
     </div>
+    <div id="db" class="caja">
+        <h1>INDEXEDB </h1>
+        <label for="db-info">BBDD INFO</label>
+        <input type="text" name="db-info" id="db-info">
+        <button id='almacenar-db'>Almacena la info</button>
+        <button id="lee-db">Lee la informacion</button>
+        <button id="borra-db">Borra la informacion</button>
+        <button id="cierra-db">CIERRA LA BBDD</button>
+    </div>
 </body>
+
 </html>
