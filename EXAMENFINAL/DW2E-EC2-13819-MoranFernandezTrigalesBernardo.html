@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC2</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <style>
+        .c {
+            margin: 10px;
+            border: 1px solid black;
+            width: 300px;
+            padding: 10px;
+        }
+
+        #mapid {
+            width: 600px;
+            height: 300px;
+        }
+    </style>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script>
+        var map;
+        var arrayCords = [];
+        var markerHoja;
+        var circulo1=null;
+        var circulo2=null;
+        var cuad = null;
+        function inicio() {
+            mapa();
+
+            map.on('click', function (e) {
+                document.getElementById('coordenadas').value = 'LantLng(' + e.latlng.lat.toFixed(6) + ',' + e
+                    .latlng.lng.toFixed(6) + ')';
+            });
+
+            document.getElementById('circulo1').addEventListener('change', circuloP);
+            document.getElementById('circulo2').addEventListener('change', circuloS);
+            document.getElementById('cuadrado').addEventListener('change', cuadrado);
+        }
+
+        function cuadrado(){
+            arrayCords = [
+                [40.05,-3.35],
+                [40.05,-3.45],
+                [39.99,-3.45],
+                [39.99,-3.35],
+            ]
+            cuad = L.polygon(arrayCords).addTo(map);
+            var popup = L.popup({
+                    minWidth: 200
+                }).setContent('<p>cuadrado</p>');
+                L.marker([40,-3.38],{opacity: 0}).addTo(map)
+                    .bindPopup(popup);
+        }
+        function circuloP(e) {
+            if(circulo1===null){
+             circulo1 = L.circle([40.1, -3.5], 5000, {
+                color: 'blue',
+                fillColor: '#00f',
+                fillOpacity: 0.5
+            }).addTo(map);
+            circulo1.setRadius(5000);
+            var popup = L.popup({
+                    minWidth: 200
+                }).setContent('<p>circulo1</p>');
+                L.marker([40.1,-3.5],{opacity:0}).addTo(map)
+                    .bindPopup(popup);
+            }
+            else{
+                circulo1.setRadius(0);
+                circulo1=null;
+            }
+        }
+
+        function circuloS(e) {
+            if(circulo2===null){
+            circulo2 = L.circle([39.98, -3.5], 5000, {
+                color: 'red',
+                fillColor: '#f30',
+                fillOpacity: 0.5
+            }).addTo(map);
+            circulo2.setRadius(5000);
+            var customIcon = new L.Icon({
+                iconUrl: 'enunciado/leaf-green.png',
+                iconSize: [0, 0],
+                iconAnchor: [0, 0]
+            });
+            var popup = L.popup({
+                    minWidth: 200
+                }).setContent('<p>circulo2</p>');
+                L.marker([39.98, -3.5],{opacity: 0}).addTo(map)
+                    .bindPopup(popup);}
+            else{
+                circulo2.setRadius(0);
+                circulo2=null;
+            }
+        }
+
+        function mapa() {
+            var blanco = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {
+                attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                subdomains: 'abcd',
+                minZoom: 0,
+                maxZoom: 20,
+                ext: 'png'
+            })
+
+            var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                mbUrl =
+                'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+            var grayscale = L.tileLayer(mbUrl, {
+                id: 'mapbox/light-v9',
+                attribution: mbAttr
+            })
+
+            var colors = L.tileLayer(mbUrl, {
+                id: 'mapbox/streets-v11',
+                attribution: mbAttr,
+            });
+
+            map = L.map('mapid', {
+                center: [40, -3.4], // punto central del mapa
+                zoom: 10, // nivel de zoom
+                layers: [colors] // capas iniciales del mapa
+            });
+            var baseLayers = {
+                "grises": grayscale,
+                "color": colors,
+                "blanco": blanco,
+            };
+            var popup = L.popup({
+                minWidth: 200
+            }).setContent('<p><b>HOLA</b><br>mi marcador<p/>');
+            var customIcon = new L.Icon({
+                iconUrl: 'leaf-green.png',
+                iconSize: [40, 40],
+                iconAnchor: [25, 50],
+                popupAnchor: [0,-52]
+            });
+            markerHoja = L.marker([40, -3.4], {
+                    icon: customIcon
+                }).addTo(map)
+                .bindPopup(popup);
+                markerHoja.openPopup()
+        }
+
+        window.onload = inicio;
+    </script>
+
+</head>
+
+<body>
+    <div id="mapid"></div>
+    zoom <input type="text" name="zoom" id="zoom" class="c" placeholder="zoom"><br>
+    coordenadas <input type="text" name="coordenadas" id="coordenadas" class="c" placeholder="coordenadas"><br>
+    circulo 1 <input type="checkbox" name="circulo1" id="circulo1" class=""><br>
+    circulo 2 <input type="checkbox" name="circulo2" id="circulo2" class=""><br>
+    cuadrado <input type="checkbox" name="cuadrado" id="cuadrado" class=""><br>
+</body>
+
+</html>

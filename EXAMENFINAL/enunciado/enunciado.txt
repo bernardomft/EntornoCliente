@@ -1,0 +1,80 @@
+- Nombre del fichero de entrega: DW2E-EC2-expediente-ApellidosNombre.htm
+- Tiempo: 100 minutos
+- Acceso a internet: si 
+
+
+Criterios
+=========
+- Solo puntuan los apartado completados.
+- El formato del nombre del archivo esta indicado en la primera linea de este documento.
+- Entregas con el nombre mal o fuera de tiempo son un cero.
+- Entregar solo un fichero.
+- Antes de empezar crear y salvar la página con el nombre correcto y hacer la primera entrega.
+
+
+Premisas
+========
+- Usar Javascript y/o HTML
+- Navegador: firefox en linux
+- Solo y exclusivamente está permitido el estilo indicado abajo. Copiar y pegar.
+
+
+Estilo 
+======
+<style>
+.c {
+	margin: 10px;
+	border: 1px solid black;
+	width: 300px;
+	padding: 10px;
+	}
+#mapid {
+	width: 600px;
+	height: 300px;
+}	
+</style>
+
+
+Apartados
+=========
+Realizar un página web siguiendo los apartados, las capturas y video dados.
+
+01-mapa inicial al cargar la página:
+a-estilo del mapa y sus controles
+b-contenedor del mapa, dimensiones y posición.
+c-nivel del zoom inicial
+d-posición del centro del mapa
+
+02-marcador al cargar la página:
+a-posición en el mapa
+b-icono personalizado suministrado
+c-popup
+
+03-click en los checkboxs y sus etiquetas:
+a-pinta y oculta circulo1
+b-pinta y oculta circulo2
+c-pinta y oculta cuadrado
+
+04-dibujo de las figuras:
+* circulo1
+a-posicion 
+b-tamaño
+c-estilo
+* circulo2
+d-posicion
+e-tamaño
+f-estilo
+* cuadrado
+g-posicion
+h-tamaño
+i-estilo
+* popups:
+j-circulo1
+k-circulo2
+l-cuadrado
+
+05-cambio de zoom con los controles del mapa:
+a-indicar en la caja 'zoom' el nivel de zoom actual
+b-limites máximo y minimo del zoom
+
+06-presentar las coordenadas al hacer click en cualquier lugar del mapa

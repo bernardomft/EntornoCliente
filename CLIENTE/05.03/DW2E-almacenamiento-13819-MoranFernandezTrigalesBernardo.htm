@@ -28,8 +28,6 @@
             //IndexeDB
             var aldb = document.getElementById('almacenar-db').addEventListener('click', almacenadb);
             var ledb = document.getElementById('lee-db').addEventListener('click', leedb);
-            //var bodb = document.getElementById('borra-db').addEventListener('click', borradb);
-            //var cidb = document.getElementById('cierra-db').addEventListener('click', cierradb);
         }
 
         //INDEXEDB FUNCTIONS
@@ -59,11 +57,16 @@
                 request.onupgradeneeded = function (event) {
                     console.log('por aqui');
                     db = event.target.result;
-                    var objectStore = db.createObjectStore("information",  {autoIncrement: true});
-                    objectStore.createIndex("info", "info", {unique: false});
+                    var objectStore = db.createObjectStore("information", {
+                        autoIncrement: true
+                    });
+                    objectStore.createIndex("info", "info", {
+                        unique: false
+                    });
                     objectStore.transaction.oncomplete = function (event) {
                         // Guarda los datos en el almacén recién creado.
-                        var customerObjectStore = db.transaction("information", "readwrite").objectStore("information");
+                        var customerObjectStore = db.transaction("information", "readwrite").objectStore(
+                            "information");
                         customerObjectStore.add(informacion.info);
                     }
 
@@ -76,10 +79,33 @@
             var request = window.indexedDB.open("MyTestDatabase", 3);
             request.onsuccess = function (event) {
                 var db = event.target.result;
-                var transaction = db.transaction(["information"]);
+                var transaction = db.transaction(["information"], "readonly");
                 var objectStore = transaction.objectStore("information");
-                var request = objectStore.get(1);
-                console.log(request.result);
+                var elements = [];
+                objectStore.openCursor().onsuccess = function (e) {
+
+                    var result = e.target.result;
+
+                    if (result === null) {
+                        return;
+                    }
+
+                    elements.push(result.value);
+                    result.continue();
+
+                };
+
+                transaction.oncomplete = function () {
+                    console.log(elements);
+                    var ele = document.createElement('div');
+                    for (var i = 0; i < elements.length; i++) {
+                        ele.innerHTML += 'info: ('+i+ ')'+ elements[i] + '<br>';
+                    }
+                    document.getElementById('db').appendChild(ele);
+                   
+
+                }
+
             };
         }
 
@@ -165,9 +191,7 @@
         <label for="db-info">BBDD INFO</label>
         <input type="text" name="db-info" id="db-info">
         <button id='almacenar-db'>Almacena la info</button>
-        <button id="lee-db">Lee la informacion</button>
-        <button id="borra-db">Borra la informacion</button>
-        <button id="cierra-db">CIERRA LA BBDD</button>
+        <button id="lee-db">Lee la informacion</button>4
     </div>
 </body>
 

@@ -13618,7 +13618,7 @@ var colors = L.tileLayer(mbUrl, {
 var map = L.map('mapid', {
   center: [48.8032, 2.3511], // punto central del mapa
   zoom: 5, // nivel de zoom
-  layers: [grayscale] // capas iniciales del mapa
+  layers: [colors] // capas iniciales del mapa
 });
 
 // añadir capas al control de capas
@@ -13635,7 +13635,7 @@ L.control.layers(baseLayers).addTo(map);
 // añadir estilos por zonas usando geoJSON
 // tb a cada zona un popup
 // tb personalizar con funciones(getColor) las zonas
-L.geoJSON(countries, {
+/*L.geoJSON(countries, {
   style: function (feature) {
     return {
       fillColor: getColor(feature.id), // color de fondo según el codigo del pais
@@ -13645,7 +13645,7 @@ L.geoJSON(countries, {
       weight: 2 // ancho de la linea del poligono
     };
   }
-}).addTo(map);
+}).addTo(map);*/
 
 function getColor(a) {
   // personalizar los colores segun el pais:
@@ -13663,7 +13663,7 @@ function getColor(a) {
   }
 }
 
-var circulo = L.circle([40.4780, -3.7893], 50000, {
+/*var circulo = L.circle([40.4780, -3.7893], 50000, {
   color: 'red',
   fillColor: '#f03',
   fillOpacity: 0.5
@@ -13774,7 +13774,7 @@ var circulo = L.circle([42.26, -6.36], 50000, {
   fillColor: 'darkgreen',
   fillOpacity: 0.5
 }).addTo(map);
-circulo.setRadius(20000000);
+circulo.setRadius(20000000);*/
 
 // Insertando una leyenda en el mapa
 var legend = L.control({
